@@ -1,10 +1,10 @@
-role :app, %w{participa@participa.barcelonaencomu.cat}
-role :web, %w{participa@participa.barcelonaencomu.cat}
-role :db,  %w{participa@participa.barcelonaencomu.cat}
+role :app, %w{participa@participa.zaragozaencomun.com}
+role :web, %w{participa@participa.zaragozaencomun.com}
+role :db,  %w{participa@participa.zaragozaencomun.com}
 
 set :rvm_ruby_version, '2.3.3'
 set :branch, ENV['BRANCH'] || :master
-set :deploy_to, '/srv/rails/participa.barcelonaencomu.cat'
+set :deploy_to, '/srv/rails/participa.zaragozaencomun.com'
 
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
