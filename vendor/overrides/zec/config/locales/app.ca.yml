@@ -7,7 +7,7 @@ ca:
         message_html: "No hem pogut trobar aquesta pàgina. Torna-ho a provar més tard o <a href='/'>prova-ho des de la pàgina principal</a>."
       "500":
         title: "Error en el servidor"
-        message_html: "Hi ha hagut un error en el servidor. Pots avisar-nos a <a href='mailto:eleccions@bcnencomu.cat'>eleccions@bcnencomu.cat</a>"
+        message_html: "Hi ha hagut un error en el servidor. Pots avisar-nos a <a href='mailto:eleccions@zaragozaencomun.com'>eleccions@zaragozaencomun.com</a>"
     messages:
       not_valid_spanish_vat: El número d'identificació fiscal no és vàlid
       not_valid_nif: El DNI no és vàlid
@@ -17,8 +17,6 @@ ca:
     models:
       user: Usuari/ària
       users: Usuaris/àries
-      group: Grup
-      groups: Grups
       collaboration: Col·laboració econòmica
       collaborations: Col·laboracions econòmiques
       order: Ordre de pagament
@@ -27,8 +25,6 @@ ca:
       elections: Eleccions
       notice: Avís
       notices: Avisos
-      doorkeeper/application: "Aplicació"
-      doorkeeper/applications: "Aplicacions"
     errors:
       models:
         user:
@@ -99,12 +95,6 @@ ca:
       notice:
         title: "Títol"
         body: "Missatge"
-      group:
-        name: "Nom"
-        users: "Usuaris/àries"
-        description: "Descripció"
-        created_at: "Creada el"
-        updated_at: "Actualitzada el"
       user:
         login: "Correu electrónic o núm. de document"
         first_name: "Nom"
@@ -124,11 +114,10 @@ ca:
         remember_me: "Recorda'm"
         wants_newsletter: 'Butlletí'
         terms_of_service: "He llegit i accepto les condicions generals"
-        inscription: "Accepto incriure'm a Barcelona en Comú"
+        inscription: "Accepto incriure'm a Zaragoza en Común"
         over_18: "Declaro ser major de 16 anys"
         captcha: "Captcha"
         current_password: "Contrasenya actual"
-        groups: "Grups"
   formtastic:
     hints:
       user:
@@ -148,14 +137,14 @@ ca:
         age_over: "No pots col·laborar si ets menor d'edat."
         valid: "Ccompte corrent invàlid. Dígit de control erroni. Sisplau revisa'l."
       title: "Col·labora econòmicament"
-      p1: "BComú és una plataforma ciutadana que, per garantir la seva autonomia financera, necessita d’una petita aportació econòmica de cadascú de nosaltres ajudant així a garantir la independència i coherència del projecte. Fem-ho possible entre tots i totes! Apunta’t a les donacions periódiques de BComú!"
+      p1: "BComún és una plataforma ciutadana que, per garantir la seva autonomia financera, necessita d’una petita aportació econòmica de cadascú de nosaltres ajudant així a garantir la independència i coherència del projecte. Fem-ho possible entre tots i totes! Apunta’t a les donacions periódiques de BComún!"
       ok:
         p1: "La teva donació s'ha donat d'alta correctament."
-        p2: "Gràcies per col·laborar amb Barcelona En Comú."
+        p2: "Gràcies per col·laborar amb Zaragoza En Común."
       ko:
         title: Hi ha hagut un error amb la teva col·laboració.
-        contact: "Sisplau intenta realitzar el pagament un altre cop. Si tornes a tenir problemes contacta tresoreria@bcnencomu.cat "
-      passport_message_html: "<p>Segons la nostra base de dades estàs inscrit amb un nombre de passaport. Atès que la Llei Orgànica 8/2007, de 4 de juliol, sobre finançament dels  partits polítics, exigeix la identificació fiscal dels donants, per poder col·laborar econòmicament amb Barcelona En Comú i poder emplenar el formulari d'alta com a col·laborador és imprescindible disposar de DNI o NIE.</p><p>Si ets espanyol o estranger amb NIE envia'ns una còpia del teu DNI o document on consti el teu nombre d'identificació d'estranger a l'adreça xxxxx@xxxx.xxx perquè puguem actualitzar les dades de la teva inscripció.</p>"
+        contact: "Sisplau intenta realitzar el pagament un altre cop. Si tornes a tenir problemes contacta tresoreria@zaragozaencomun.com "
+      passport_message_html: "<p>Segons la nostra base de dades estàs inscrit amb un nombre de passaport. Atès que la Llei Orgànica 8/2007, de 4 de juliol, sobre finançament dels  partits polítics, exigeix la identificació fiscal dels donants, per poder col·laborar econòmicament amb Zaragoza En Común i poder emplenar el formulari d'alta com a col·laborador és imprescindible disposar de DNI o NIE.</p><p>Si ets espanyol o estranger amb NIE envia'ns una còpia del teu DNI o document on consti el teu nombre d'identificació d'estranger a l'adreça xxxxx@xxxx.xxx perquè puguem actualitzar les dades de la teva inscripció.</p>"
       over: Declaro ser major de 18 anys.
       total_amount: Aportació económica
       next: "Ja tens una col·laboració. És la següent:"
@@ -172,8 +161,8 @@ ca:
       terms_of_service:
         accept: Accepto les condicions generals.
         title: "Condicions Generals"
-        p1_title: "Relació entre Barcelona En Comú i el col·laborador"
-        p1: "La realització de donacions econòmiques no implica la vinculació del col·laborador amb Barcelona En Comú, ni li confereix la condició legal de soci, afiliat o simpatitzant, ni li atorga drets davant el partit, ni queda obligat pels seus estatuts i resta de normes internes. D’acord amb el que s'estableix a la Llei orgànica 8/2007, de 4 de juliol, de finançament de partits polítics, el vostre donatiu tindrà la consideració de ”donació privada”, diferent de les quotes de socis, afiliats o simpatitzants.
+        p1_title: "Relació entre Zaragoza En Común i el col·laborador"
+        p1: "La realització de donacions econòmiques no implica la vinculació del col·laborador amb Zaragoza En Común, ni li confereix la condició legal de soci, afiliat o simpatitzant, ni li atorga drets davant el partit, ni queda obligat pels seus estatuts i resta de normes internes. D’acord amb el que s'estableix a la Llei orgànica 8/2007, de 4 de juliol, de finançament de partits polítics, el vostre donatiu tindrà la consideració de ”donació privada”, diferent de les quotes de socis, afiliats o simpatitzants.
 
 Al confirmar aquest formulari accepteu que:
 
@@ -185,9 +174,9 @@ Aquesta donació no es fa des de governs, organismes, entitats o empreses públi
 
 La quantitat que vós doneu no us ha sigut lliurada per part d’alguna persona o entitat amb l’objectiu que aquesta donació es pugui fer."
         p2_title: "Protecció de dades de caràcter personal"
-        p2: "Barcelona En Comú, d’acord amb la Llei orgànica 15/1999, de protecció de dades de caràcter personal, us informa que les vostres dades seran incorporades al fitxer “donacions”, del qual és responsable Barcelona En Comú, que les emprarà per tramitar la vostra col·laboració, gestionar els càrrecs bancaris i complir amb la normativa de finançament de partits polítics, així com amb finalitats estadístiques i fer-vos arribar periòdicament informació de les seves activitats. Concediu el consentiment exprés perquè aquestes dades passin a formar part de Barcelona En Comú. Per exercir els vostres drets d’accés, rectificació, cancel·lació o oposició, com ara cancel·lar la subscripció, modificar les dades bancàries o l’import i freqüència de la vostra donació, podeu enviar un correu electrònic a tresoreria@bcnencomu.cat, indicant la referència “modificació de la donació” o per correu postal a la seu social sítia al carrer Castillejos, 233, baixos, de Barcelona, adjuntant còpia del vostre document nacional d’identitat."
+        p2: "Zaragoza En Común, d’acord amb la Llei orgànica 15/1999, de protecció de dades de caràcter personal, us informa que les vostres dades seran incorporades al fitxer “donacions”, del qual és responsable Zaragoza En Común, que les emprarà per tramitar la vostra col·laboració, gestionar els càrrecs bancaris i complir amb la normativa de finançament de partits polítics, així com amb finalitats estadístiques i fer-vos arribar periòdicament informació de les seves activitats. Concediu el consentiment exprés perquè aquestes dades passin a formar part de Zaragoza En Común. Per exercir els vostres drets d’accés, rectificació, cancel·lació o oposició, com ara cancel·lar la subscripció, modificar les dades bancàries o l’import i freqüència de la vostra donació, podeu enviar un correu electrònic a tresoreria@zaragozaencomun.com, indicant la referència “modificació de la donació” o per correu postal a la seu social sítia al carrer Castillejos, 233, baixos, de Zaragoza, adjuntant còpia del vostre document nacional d’identitat."
         p3_title: "Consentiment de l'ordre de domiciliació"
-        p3: "Autoritzeu a Barcelona En Comú i a la vostra entitat bancària a efectuar les operacions de cobrament mitjançant càrrecs al compte bancari que ens heu facilitat, per l’import i amb la freqüència que ens heu indicat al formulari. Els càrrecs domiciliats es realitzaran entre els dies 10 i 15 de cada mes."
+        p3: "Autoritzeu a Zaragoza En Común i a la vostra entitat bancària a efectuar les operacions de cobrament mitjançant càrrecs al compte bancari que ens heu facilitat, per l’import i amb la freqüència que ens heu indicat al formulari. Els càrrecs domiciliats es realitzaran entre els dies 10 i 15 de cada mes."
       freq:
         first: "Mensual"
         second: "Trimestral"
@@ -200,7 +189,6 @@ La quantitat que vós doneu no us ha sigut lliurada per part d’alguna persona 
         first: Quant i com vols col·laborar
         second: Confirmació
         third: Resultat
-      submit: Guardar
   bec:
     other_locales: "Altres idiomes"
     home_address: "Adreça"
@@ -215,12 +203,12 @@ La quantitat que vós doneu no us ha sigut lliurada per part d’alguna persona 
       change_phone_explain_html: "Ara mateix tens el mòbil <b> %{phone} </b>"
       change_password: "Canvia contrasenya"
       cancel_account: "Dóna'm de baixa"
-      cancel_account_explain_html: "<p>Si cliques ‘Dóna'm de baixa’ deixaràs de ser membre de Barcelona En Comú i cancel·larem les teves dades personals conforme a allò convingut a la Llei Orgànica 15/1999 de Protecció de Dades de Caràcter Personal.</p>
-<p> A partir d'aquest moment el teu compte d'accés al portal de participació de Barcelona En Comú quedarà eliminat.</p>
+      cancel_account_explain_html: "<p>Si cliques ‘Dóna'm de baixa’ deixaràs de ser membre de Zaragoza En Común i cancel·larem les teves dades personals conforme a allò convingut a la Llei Orgànica 15/1999 de Protecció de Dades de Caràcter Personal.</p>
+<p> A partir d'aquest moment el teu compte d'accés al portal de participació de Zaragoza En Común quedarà eliminat.</p>
 </p><p>
-En clicar el botó ‘Dóna'm de baixa’ deixaràs de pertànyer a Barcelona En Comú i cancel•larem les teves dades personals, conforme a allò convingut a la Llei Orgànica 15/1999 de Protecció de Dades de Caràcter Personal.
+En clicar el botó ‘Dóna'm de baixa’ deixaràs de pertànyer a Zaragoza En Común i cancel•larem les teves dades personals, conforme a allò convingut a la Llei Orgànica 15/1999 de Protecció de Dades de Caràcter Personal.
 </p><p>
-Des d'aquell moment, el teu compte d'accés al portal de participació de Barcelona En Comú serà eliminat.
+Des d'aquell moment, el teu compte d'accés al portal de participació de Zaragoza En Común serà eliminat.
 </p><p>
 Conforme a allò convingut a l'article 16.3 de la Llei Orgànica de Protecció de Dades, la cancel•lació donarà lloc al bloqueig de les dades, es conservaran únicament a disposició de les Administracions Públiques, Jutges i Tribunals, per a l'atenció de les possibles responsabilitats nascudes del tractament, durant el termini de prescripció d'aquestes possibles responsabilitats. Complert el citat termini es procedirà a la supressió de les dades.
 </p>
@@ -230,17 +218,17 @@ Conforme a allò convingut a l'article 16.3 de la Llei Orgànica de Protecció d
         hello: "Hola"
         welcome: "Benvingut/uda"
         lock:
-          p1: "El teu compte ha estat bloquejat per un nombre excessiu d'intents d'inici de sessió fallits. Si no has estat tu, avisa'ns a través de eleccions@bcnencomu.cat."
+          p1: "El teu compte ha estat bloquejat per un nombre excessiu d'intents d'inici de sessió fallits. Si no has estat tu, avisa'ns a través de eleccions@zaragozaencomun.com."
           p2: "Clica a l'enllaç d'aquí sota per desbloquejar el teu compte:"
           link: 'Desbloqueja el meu compte'
-          p3: "Aquesta adreça electrònica no permet respostes. Si tens qualsevol problema amb el registre, si us plau, contacta amb eleccions@bcnencomu.cat"
+          p3: "Aquesta adreça electrònica no permet respostes. Si tens qualsevol problema amb el registre, si us plau, contacta amb eleccions@zaragozaencomun.com"
         confirm:
-          p1: "T'has donat d'alta o has canviat el teu correu electrònic a l'entorn Barcelona en Comú. Si no és així, no facis cas d'aquest missatge. Pots confirmar que aquesta és la teva adreça de correu a través de l'enllaç següent:"
+          p1: "T'has donat d'alta o has canviat el teu correu electrònic a l'entorn Zaragoza en Común. Si no és així, no facis cas d'aquest missatge. Pots confirmar que aquesta és la teva adreça de correu a través de l'enllaç següent:"
           link: 'Confirma el meu compte'
-          p2: "Aquesta adreça electronica no permet respostes. Si tens qualsevol problema amb el registre, si us plau, contacta amb eleccions@bcnencomu.cat"
+          p2: "Aquesta adreça electronica no permet respostes. Si tens qualsevol problema amb el registre, si us plau, contacta amb eleccions@zaragozaencomun.com"
         password:
           p1: "Algú ha demanat que canviïs la teva contrasenya. Pots fer-ho a través de l'enllaç següent:"
-          p2: "Aquest compte de correu electrònic no accepta respostes. Si tens qualsevol problema amb el registre, si et plau, contacta amb eleccions@bcnencomu.cat"
+          p2: "Aquest compte de correu electrònic no accepta respostes. Si tens qualsevol problema amb el registre, si et plau, contacta amb eleccions@zaragozaencomun.com"
           p3: "Si no has estat tu, si et plau, no facis cas d'aquest missatge. La teva contrasenya no canviarà fins que validis aquest enllaç i en creïs una de nova.."
           link: 'Canvia contrasenya'
     navbar:
@@ -249,13 +237,13 @@ Conforme a allò convingut a l'article 16.3 de la Llei Orgànica de Protecció d
       notice: "Avisos"
     home:
       button: "No estàs inscrit? Inscriu-t'hi!"
-      p1: "Barcelona En Comú neix amb la voluntat de construir una forma nova de fer política, i per fer-ho necessitem desenvolupar estructures organitzatives diferents de les tradicionals, per no repetir errors del passat, per avançar cap a una societat més democràtica. Estem construint una estructura transparent, ciutadana, oberta, democràtica, eficaç. Una organització que respongui a l'impuls democratitzador de Barcelona En Comú, en què discutim, debatem i decidim entre tots. "
-      p2: "Passes a formar part del cens d'inscrits de Barcelona En Comú, des del qual es realitzaran a partir d'ara totes les votacions. És un procediment senzill i ràpid que et permetrà ser part activa de la comunitat Barcelona En Comú."
+      p1: "Zaragoza En Común neix amb la voluntat de construir una forma nova de fer política, i per fer-ho necessitem desenvolupar estructures organitzatives diferents de les tradicionals, per no repetir errors del passat, per avançar cap a una societat més democràtica. Estem construint una estructura transparent, ciutadana, oberta, democràtica, eficaç. Una organització que respongui a l'impuls democratitzador de Zaragoza En Común, en què discutim, debatem i decidim entre tots. "
+      p2: "Passes a formar part del cens d'inscrits de Zaragoza En Común, des del qual es realitzaran a partir d'ara totes les votacions. És un procediment senzill i ràpid que et permetrà ser part activa de la comunitat Zaragoza En Común."
     valid:
       phone:
         p1: "Introdueix el teu nou número de telèfon mòbil."
         p2: "Rebràs el codi de verificació per validar el nou número en uns segons."
-        p3: "Si ja has participat en alguna votació de Barcelona En Comú, t'enviarem el codi per correu electrònic."
+        p3: "Si ja has participat en alguna votació de Zaragoza En Común, t'enviarem el codi per correu electrònic."
         p4: "Introdueix el text que apareix a la imatge."
         p5: "Introdueix el codi que hagis rebut per SMS per confirmar-lo"
         valid: "Has validat correctament el teu nou número de telèfon."
@@ -269,11 +257,11 @@ Conforme a allò convingut a l'article 16.3 de la Llei Orgànica de Protecció d
         nie: "El format ha de ser una lletra, 7 xifres i una lletra, sense guions ni espais."
         passport: "El format ha de ser sense guions ni espais."
         welcome_html: " <span>
-        Per formar part de Barcelona en Comú has de seguir els passos següents:
+        Per formar part de Zaragoza en Común has de seguir els passos següents:
       </span>
       <ol>
          <li><span class='welcome-number'>1</span><span  class='welcome-thumb'>%{logo_inscription}</span><span  class='welcome-text'><b>Inscripció a través d' Internet</b>:  Emplena el següent formulari. Revisa el teu correu, confirma'l amb l'enllaç que t'enviarem.</span></li>
-         <li><span class='welcome-number'>2</span><span  class='welcome-thumb'>%{logo_verification}</span><span  class='welcome-text'><b>Verificació presencial</b>:  Hauràs de portar documentació que acrediti la teva identitat i residència a Barcelona ciutat a algun dels punts de verificació.</span></li>
+         <li><span class='welcome-number'>2</span><span  class='welcome-thumb'>%{logo_verification}</span><span  class='welcome-text'><b>Verificació presencial</b>:  Hauràs de portar documentació que acrediti la teva identitat i residència a Zaragoza ciutat a algun dels punts de verificació.</span></li>
          <li><span class='welcome-number'>3</span><span  class='welcome-thumb'>%{logo_voting}</span><span  class='welcome-text'><b>Votació por Internet</b>: T'avisarem per correu electrònic perquè puguis participar a les properes consultes.</span></li>
       </ol>"
         dni: "El format ha de ser de 8 números i una lletra, sense guions ni espais."
@@ -286,16 +274,16 @@ Conforme a allò convingut a l'article 16.3 de la Llei Orgànica de Protecció d
   terms_of_service:
     title: 'Condicions generals'
     p1_html: " <h2>Condicions generals d'inscripció i política de privacitat</h2>
-<p><b> 1. Condicions legals de la inscripció a Barcelona En Comú Partit Polític</b></p>
+<p><b> 1. Condicions legals de la inscripció a Zaragoza En Común Partit Polític</b></p>
 <p>
-Quan s'emplena i envia el formulari d'inscripció l'interessat passarà a ser membre de Barcelona En Comú Partit Polític amb CIF G66476136 i serà titular dels drets i obligacions reconeguts per la legislació espanyola a tots els inscrits en partits polítics.
+Quan s'emplena i envia el formulari d'inscripció l'interessat passarà a ser membre de Zaragoza En Común Partit Polític amb CIF G66476136 i serà titular dels drets i obligacions reconeguts per la legislació espanyola a tots els inscrits en partits polítics.
 </p>
 <p>
 La inscripció suposa l'acceptació expressa dels estatuts del partit i dels acords ètics, organitzatius i polítics que aprovi la Asamblea Ciudadana i la resta d'òrgans del partit, així com dels mètodes de participació i les fórmules de decisió que legítimament s'estableixin.
 </p>
 <p><b>2. Protecció de dades personals</b></p>
 <p>
-Barcelona En Comú, d'acord amb la Llei Orgànica 15/1999 de Protecció de Dades de Caràcter Personal, informa les persones que vulguin inscriure's que les dades personals que facilitin en el formulari d'inscripció seran incorporades al fitxer d'afiliats del qual és responsable Barcelona En Comú Partit Polític, amb CIF G66476136, que els utilitzarà per gestionar els perfils dels inscrits, contactar-hi per gestionar-ne el registre i fer-los arribar tota la informació necessària sobre la inscripció.
+Zaragoza En Común, d'acord amb la Llei Orgànica 15/1999 de Protecció de Dades de Caràcter Personal, informa les persones que vulguin inscriure's que les dades personals que facilitin en el formulari d'inscripció seran incorporades al fitxer d'afiliats del qual és responsable Zaragoza En Común Partit Polític, amb CIF G66476136, que els utilitzarà per gestionar els perfils dels inscrits, contactar-hi per gestionar-ne el registre i fer-los arribar tota la informació necessària sobre la inscripció.
 </p>
 <p>
 L'inscrit/a accepta i consent expressament el tractament de les seves dades personals i la recepció de comunicacions electròniques per als fins indicats.
@@ -304,18 +292,18 @@ L'inscrit/a accepta i consent expressament el tractament de les seves dades pers
 Exceptuant un imperatiu legal, les dades personals dels inscrits no seran cedits a terceres persones sense el seu consentiment exprés.
 </p>
 <p>
-Barcelona En Comú compleix amb totes les mesures de seguretat per a la protecció de dades personals exigides pel Reial Decret 1720/2007, de 21 de desembre, pel qual s'aprova el Reglament de desenvolupament de la Llei Orgànica 15/1999, de 13 de desembre, de protecció de dades de caràcter personal.
+Zaragoza En Común compleix amb totes les mesures de seguretat per a la protecció de dades personals exigides pel Reial Decret 1720/2007, de 21 de desembre, pel qual s'aprova el Reglament de desenvolupament de la Llei Orgànica 15/1999, de 13 de desembre, de protecció de dades de caràcter personal.
 </p>
 <p>
 <p><b>3. Exercicis dels drets d'accés, rectificació, cancel·lació i oposició</b></p>
 <p>
-Per exercir els drets d'accés, rectificació, cancel·lació i oposició l'inscrit/a podrà utilitzar els formularis disponibles a la pàgina web del perfil d'usuari del web participa.barcelonaencomu.cat o dirigir-se per correu electrònic a eleccions@bcnencomu.cat indicant el seu nom i cognoms i adjuntant còpia del seu DNI o document legal d'identificació.
+Per exercir els drets d'accés, rectificació, cancel·lació i oposició l'inscrit/a podrà utilitzar els formularis disponibles a la pàgina web del perfil d'usuari del web participa.zaragozaencomun.com o dirigir-se per correu electrònic a eleccions@zaragozaencomun.com indicant el seu nom i cognoms i adjuntant còpia del seu DNI o document legal d'identificació.
 </p>
 <p><b>4. Acceptació de les presents condicions generals</b></p>
 <p>
 Quan es marca la casella 'He llegit i accepto les condicions generals' l'USUARI/ÀRIA declara haver llegit aquest avís legal i estar conforme amb el contingut.
 </p>
-<p> <b> Barcelona En Comú </b></p>
+<p> <b> Zaragoza En Común </b></p>
 <p> <b>Versió 28 de febrer de 2015 16:01 </b> </p> "
     legacy:
       password:
@@ -330,16 +318,16 @@ Quan es marca la casella 'He llegit i accepto les condicions generals' l'USUARI/
         title: "Informació general"
         p1:
           subtitle: "Identificació del propietari del web"
-          text_html: "Barcelona en Comú PARTIT POLÍTIC (endavant Barcelona en Comú) <br> CIF G66476136 <br> Carrer Castillejos, 233 <br> 08013 Barcelona"
+          text_html: "Zaragoza en Común PARTIT POLÍTIC (endavant Zaragoza en Común) <br> CIF G66476136 <br> Carrer Castillejos, 233 <br> 08013 Zaragoza"
         p2:
           subtitle: "Contacte"
-          text_html: "Informació general: eleccions@bcnencomu.cat <br> Incidències d'inscripcions: eleccions@bcnencomu.cat <br> Protecció de dades: eleccions@bcnencomu.cat <br>"
+          text_html: "Informació general: eleccions@zaragozaencomun.com <br> Incidències d'inscripcions: eleccions@zaragozaencomun.com <br> Protecció de dades: eleccions@zaragozaencomun.com <br>"
       p2:
-        title: "Condicions generals d'accés i l'ús del web participa.barcelonaencomu.cat"
+        title: "Condicions generals d'accés i l'ús del web participa.zaragozaencomun.com"
         p1:
           subtitle: "Usuaris i dret d'accés"
           text_html: "
-  <p>L'accés a aquest web està reservat a les persones inscrites a Barcelona En Comú i que s'hi registrin conforme al procediment establert a l'apartat 2.4 d'aquestes condicions.
+  <p>L'accés a aquest web està reservat a les persones inscrites a Zaragoza En Común i que s'hi registrin conforme al procediment establert a l'apartat 2.4 d'aquestes condicions.
   </p>
   <p>
   L'accés a aquest web atribueix la condició d'USUARI/ÀRIA i implica l'acceptació expressa i sense reserves de totes i cadascuna de les condicions generals que es publiquen en aquest avís legal, sense perjudici de l'acceptació concreta de les condicions particulars que s'incloguin a les pàgines del lloc.
@@ -348,13 +336,13 @@ Quan es marca la casella 'He llegit i accepto les condicions generals' l'USUARI/
   El dret a accedir i utilitzar aquest web queda condicionat al bon ús que se'n faci i al compliment de les presents condicions generals i les condicions particulars incloses a les pàgines del lloc.
   </p>
   <p>
-  Barcelona En Comú denegarà i retirarà l'accés i ús del web en qualsevol moment i sense avís previ a tota persona que incompleixi les condicions generals o particulars que es publiquin en aquest lloc web o que faci un mal ús de les eines i els serveis que es faciliten als usuaris.
+  Zaragoza En Común denegarà i retirarà l'accés i ús del web en qualsevol moment i sense avís previ a tota persona que incompleixi les condicions generals o particulars que es publiquin en aquest lloc web o que faci un mal ús de les eines i els serveis que es faciliten als usuaris.
   </p>
   "
         p2:
           subtitle: "Modificacions del lloc i dels serveis"
           text_html: "<p>
-Barcelona En Comú es reserva el dret de modificar unilateralment en qualsevol moment i sense avís previ les presents condicions generals, les condicions particulars i les condicions d'ús i els serveis que es donen en aquesta pàgina web.
+Zaragoza En Común es reserva el dret de modificar unilateralment en qualsevol moment i sense avís previ les presents condicions generals, les condicions particulars i les condicions d'ús i els serveis que es donen en aquesta pàgina web.
 </p>
 <p>
 També es reserva el dret a modificar unilateralment en qualsevol moment i sense avís previ la presentació, disseny i configuració del lloc web.
@@ -369,19 +357,19 @@ Les modificacions seran publicades oportunament a tots els usuaris mitjançant a
           subtitle: "Accés i ús del web"
           text_html: "
 <p>
-L'accés i ús del web té caràcter gratuït per als USUARIS i està reservat per als inscrits a Barcelona En Comú.
+L'accés i ús del web té caràcter gratuït per als USUARIS i està reservat per als inscrits a Zaragoza En Común.
 </p>
 <p>
-Per accedir als serveis és necessari estar inscrit prèviament com a membre de Barcelona En Comú i registrar-se posteriorment al web amb el nom d'usuari i la contrasenya que siguin requerits i facilitats per Barcelona En Comú.
+Per accedir als serveis és necessari estar inscrit prèviament com a membre de Zaragoza En Común i registrar-se posteriorment al web amb el nom d'usuari i la contrasenya que siguin requerits i facilitats per Zaragoza En Común.
 </p>
 <p>
 Per l'accés s'hauran de seguir les instruccions de registre que particularment s'estableixin a la pàgina d'inici.
 </p>
 <p>
-L'USUARI/ÀRIA es compromet a fer un ús diligent i a no posar a disposició de tercers el seu nom d'usuari i contrasenya, així com a comunicar a Barcelona En Comú amb la màxima brevetat, la pèrdua, robatori o qualsevol risc d'accés a aquests nom d'usuari i contrasenya per un tercer.
+L'USUARI/ÀRIA es compromet a fer un ús diligent i a no posar a disposició de tercers el seu nom d'usuari i contrasenya, així com a comunicar a Zaragoza En Común amb la màxima brevetat, la pèrdua, robatori o qualsevol risc d'accés a aquests nom d'usuari i contrasenya per un tercer.
 </p>
 <p>
-L'accés i ús del web tenen, en principi, una durada indefinida. No obstant això, Barcelona En Comú es reservarà el dret a suspendre'n l'accés i l'ús en qualsevol moment. En aquests casos ho comunicarà als usuaris per correu electrònic o mitjançant un avís a la pàgina d'inici.
+L'accés i ús del web tenen, en principi, una durada indefinida. No obstant això, Zaragoza En Común es reservarà el dret a suspendre'n l'accés i l'ús en qualsevol moment. En aquests casos ho comunicarà als usuaris per correu electrònic o mitjançant un avís a la pàgina d'inici.
 </p>
 "
         p5:
@@ -405,9 +393,9 @@ L'USUARI/ÀRIA no està autoritzat per fer servir la informació continguda al w
         p6:
           subtitle: "Titularitat dels continguts."
           text_html: "<p>
-Tota la informació continguda en aquest web, incloent-hi imatges, dissenys gràfics o codi informàtics, noms comercials, marques i signes distintius, entre altres, és propietat intel·lectual i industrial de Barcelona En Comú.  </p>
+Tota la informació continguda en aquest web, incloent-hi imatges, dissenys gràfics o codi informàtics, noms comercials, marques i signes distintius, entre altres, és propietat intel·lectual i industrial de Zaragoza En Común.  </p>
 <p>
-Barcelona En Comú no cedeix total ni parcialment, ni concedeix cap llicència ni autorització als usuaris sobre els drets de propietat intel·lectual o industrial o de qualsevol altra forma relativa al web.
+Zaragoza En Común no cedeix total ni parcialment, ni concedeix cap llicència ni autorització als usuaris sobre els drets de propietat intel·lectual o industrial o de qualsevol altra forma relativa al web.
 </p>
 <p>
 Suposa una infracció dels drets de la propietat intel·lectual i industrial protegits per la llei copiar, reproduir, comunicar, distribuir, modificar o cedir la informació continguda al web, a no ser que es compti amb l'autorització del titular dels corresponents drets o que resulti legalment permès.
@@ -427,7 +415,7 @@ El web podrà disposar de versions en altres llengües, en especial en català, 
         p10:
           subtitle: "Legislació aplicable i jurisdicció"
           text_html: "<p> Les condicions generals i particulars d'ús, política de galetes i política de privacitat d'aquesta pàgina web es regiran per la legislació espanyola.  </p>
-<p> Barcelona En Comú i l'USUARI/ÀRIA, amb renúncia expressa a la jurisdicció que pogués correspondre'ls, se sotmeten als jutjats i tribunals del domicili de l'usuari/ària, per qualsevol controvèrsia que pogués sorgir de la prestació dels serveis objecte d'aquestes condicions generals. En el supòsit que l'usuari/ària tingués el seu domicili fora de territori espanyol, Barcelona En Comú i l'USUARI/ÀRIA se sotmeten, amb renúncia expressa a la jurisprudència que pogués correspondre'ls, en els jutjats i tribunals de Madrid (Espanya).
+<p> Zaragoza En Común i l'USUARI/ÀRIA, amb renúncia expressa a la jurisdicció que pogués correspondre'ls, se sotmeten als jutjats i tribunals del domicili de l'usuari/ària, per qualsevol controvèrsia que pogués sorgir de la prestació dels serveis objecte d'aquestes condicions generals. En el supòsit que l'usuari/ària tingués el seu domicili fora de territori espanyol, Zaragoza En Común i l'USUARI/ÀRIA se sotmeten, amb renúncia expressa a la jurisprudència que pogués correspondre'ls, en els jutjats i tribunals de Madrid (Espanya).
 </p>"
       p3:
         title: "Política de privacitat"
@@ -436,7 +424,7 @@ El web podrà disposar de versions en altres llengües, en especial en català, 
           text_html: ""
         p2:
           subtitle: "Exercicis dels drets d'accés, rectificació, cancel·lació i oposició"
-          text_html: "Per exercir els drets d'accés, rectificació, cancel·lació i oposició l'USUARI/ÀRIA pot utilitzar els formularis disponibles a la pàgina web del perfil d'usuari o dirigir-se per correu electrònic a eleccions@bcnencomu.cat indicant el seu nom i cognoms i adjuntant una còpia del seu DNI o document legal d'identificació."
+          text_html: "Per exercir els drets d'accés, rectificació, cancel·lació i oposició l'USUARI/ÀRIA pot utilitzar els formularis disponibles a la pàgina web del perfil d'usuari o dirigir-se per correu electrònic a eleccions@zaragozaencomun.com indicant el seu nom i cognoms i adjuntant una còpia del seu DNI o document legal d'identificació."
       p4:
         title: "Acceptació de les presents condicions generals"
         p1:
@@ -444,7 +432,7 @@ El web podrà disposar de versions en altres llengües, en especial en català, 
           text_html: "
 <p> Quan es marca la casella He llegit i accepto les condicions d'ús, política de galetes i política de privacitat l'USUARI/ÀRIA declara haver llegit aquest avís legal i estar conforme amb el seu contingut.
 </p>
-<p> <b> Barcelona En Comú Barcelona<br><br> Versió 20 de febrer de 2015 12:55<br> </b> </p>
+<p> <b> Zaragoza En Común Zaragoza<br><br> Versió 20 de febrer de 2015 12:55<br> </b> </p>
 "
   issues:
     confirm_sms: "Per seguretat, has de confirmar el teu telèfon."
@@ -483,9 +471,9 @@ El web podrà disposar de versions en altres llengües, en especial en català, 
       voting: "VOTACIÓ"
       inscription_errors: "ERRORS D'INSCRIPCIÓ"
       verification: "VERIFICACIÓ"
-      faq1_html: '<a class="cd-faq-trigger" href="#0">1. Què em cal per accedir a participa.barcelonaencomu.cat?</a>
+      faq1_html: '<a class="cd-faq-trigger" href="#0">1. Què em cal per accedir a participa.zaragozaencomun.com?</a>
             <div class="cd-faq-content">
-    <p> Es necessari residir a la ciutat de Barcelona.
+    <p> Es necessari residir a la ciutat de Zaragoza.
     </p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp; 1. <strong> DNI / NIF / Passaport </strong>. Per seguretat, ha de ser únic i no es podrà canviar. </p>
  <p>&nbsp;&nbsp;&nbsp;&nbsp; 2. <strong> Correu electrònic </strong>: Per seguretat, ha de ser únic. </p>
@@ -494,7 +482,7 @@ El web podrà disposar de versions en altres llengües, en especial en català, 
           <li>
           <a class="cd-faq-trigger" href="#0">2. Què faig si he perdut la contrassenya?</a>
           <div class="cd-faq-content">
-           <p> Si no recordes la contrasenya, fes clic <a href="https://participa.barcelonaencomu.cat/ca/users/password/new" target="_blank" title="Has oblidat la teva contrasenya?"> Aquí </a> per sol·licitar-ne una de nova. </p>
+           <p> Si no recordes la contrasenya, fes clic <a href="https://participa.zaragozaencomun.com/ca/users/password/new" target="_blank" title="Has oblidat la teva contrasenya?"> Aquí </a> per sol·licitar-ne una de nova. </p>
           </div> <!-- cd-faq-content -->'
       faq2_html: " <a class='cd-faq-trigger' href='#0'>3. No arecordo del correu electrònc. Què faig?</a>
           <div class='cd-faq-content'>
@@ -508,7 +496,7 @@ El web podrà disposar de versions en altres llengües, en especial en català, 
             </div> <!-- cd-faq-content -->
            <a class='cd-faq-trigger' href='#0'>5. Continuo sense poder accedir al portal de participació. Com puc comunicar-me amb l'equip de suport?</a>
           <div class='cd-faq-content'>
-<p> Si tens algun problema pots comunicar-te amb nosaltres a <a href='mailto:eleccions@bcnencomu.cat'> eleccions@bcnencomu.cat </a> indicant si escau les dades següents: </ p>
+<p> Si tens algun problema pots comunicar-te amb nosaltres a <a href='mailto:eleccions@zaragozaencomun.com'> eleccions@zaragozaencomun.com </a> indicant si escau les dades següents: </ p>
 <p> Nom i cognoms: <br />
 Correu electrònic: <br />
 DNI: <br />
@@ -517,7 +505,7 @@ Descripció del problema: </ p>
       faq3_html: "<a class='cd-faq-trigger' href='#0'>6. Correu  electrònic, número de document o contrasenya invàlida.</a>
           <div class='cd-faq-content'>
             <p> Si no recordes el correu electrònic que vas fer servir per inscriure't, prova-ho amb el teu DNI. </p>
-             <p> Si no recordes la contrasenyaa, fes clic <a href='https://participa.barcelonaencomu.cat/es/users/password/new' target='_blank' title='Has olblidat la teva contrasenya? '> Aquí </a> per sol·licitar-ne una de nova. </p>
+             <p> Si no recordes la contrasenyaa, fes clic <a href='https://participa.zaragozaencomun.com/es/users/password/new' target='_blank' title='Has olblidat la teva contrasenya? '> Aquí </a> per sol·licitar-ne una de nova. </p>
              <p> Si no reps la teva contrasenya, mira l'error núm. 2, que apareix més avall.</p>
           </div> <!-- cd-faq-content -->
           </li>
@@ -525,7 +513,7 @@ Descripció del problema: </ p>
            <a class='cd-faq-trigger' href='#0'>7. No m'arriben correus a cap dels meus comptes. Em sembla que m'he equivocat a l'hora d'escriure el meu correu electrònic.  </a>
           <div class='cd-faq-content'>
              <p><strong>Causa:</strong><br />Potser vas escriure malament el teu correu durant el procés de registre o el registre ha estat incomplet.</p>
-             <p> <strong> Solució:</strong><br />Escriu un correu a <a href='mailto:eleccions@bcnencomu.cat'>eleccions@bcnencomu.cat</a>indica-hi les teves dades personals i adjunta-hi una fotocòpia del teu DNI o passaport per donar-te de baixa i així podràs tornar a inscriure-t'hi.</p>
+             <p> <strong> Solució:</strong><br />Escriu un correu a <a href='mailto:eleccions@zaragozaencomun.com'>eleccions@zaragozaencomun.com</a>indica-hi les teves dades personals i adjunta-hi una fotocòpia del teu DNI o passaport per donar-te de baixa i així podràs tornar a inscriure-t'hi.</p>
      </div> <!-- cd-faq-content -->
           </li>"
       faq4_html: "<li> <a class='cd-faq-trigger' href='#0'>8. Quins mètodes de verificació s'han habilitat?</a> <div class='cd-faq-content'> <p>Hem habilitat <a href='%{verifications_url}'>punts presencials per a la verificació</a>.</p> </div> <!-- cd-faq-content --> </li>"
@@ -533,8 +521,8 @@ Descripció del problema: </ p>
       <div class='cd-faq-content'>
         <p>Amb tres passos molt senzills:<br/>
 Amb tres passos molt senzills:
- 1r.  Entra al web participa.barcelonaencomu.cat, accedeix al portal de participació i introdueix el DNI / correu electrònic i la contrasenya.  Si no estàs inscrit/a, fes-ho aquí: https://participa.barcelonaencomu.cat. És molt senzill.
- 2n.  Accedeix a la cabina de votació: un cop hagis entrat a l'aplicació  de  Barcelona En Comú, veuràs un botó per votar. Fes-hi clic i se’t redirigirà a la cabina de votació,
+ 1r.  Entra al web participa.zaragozaencomun.com, accedeix al portal de participació i introdueix el DNI / correu electrònic i la contrasenya.  Si no estàs inscrit/a, fes-ho aquí: https://participa.zaragozaencomun.com. És molt senzill.
+ 2n.  Accedeix a la cabina de votació: un cop hagis entrat a l'aplicació  de  Zaragoza En Común, veuràs un botó per votar. Fes-hi clic i se’t redirigirà a la cabina de votació,
  3r. Vota: respon la pregunta de la votació.
 </p>
       </div> <!-- cd-faq-content -->
@@ -542,28 +530,28 @@ Amb tres passos molt senzills:
       <li>
       <a class='cd-faq-trigger' href='#0'>10. Qui pot votar?</a>
       <div class='cd-faq-content'>
-        <p>Qualsevol  persona inscrita a Barcelona En Comú a través de  http://participa.barcelonaencomu.cat que tingui més de 16 anys i visqui a  Barcelona i hagi realitzat la verificació presencial.</p>
+        <p>Qualsevol  persona inscrita a Zaragoza En Común a través de  http://participa.zaragozaencomun.com que tingui més de 16 anys i visqui a  Zaragoza i hagi realitzat la verificació presencial.</p>
       </div> <!-- cd-faq-content -->
       </li>
       <li>
       <li>
       <a class='cd-faq-trigger' href='#0'>11. Què necessito per votar?</a>
       <div class='cd-faq-content'>
-        <p>Necessites un ordinador o qualsevol altre dispositiu (android / iphone) amb  accés a la xarxa per accedir a <a href='https://participa.barcelonaencomu.cat' target='_blank' >https://participa.barcelonaencomu.cat</a> i estar inscrit/a a <a href='https://participa.barcelonaencomu.cat' target='_blank'>https://participa.barcelonaencomu.cat</a>.</p>
+        <p>Necessites un ordinador o qualsevol altre dispositiu (android / iphone) amb  accés a la xarxa per accedir a <a href='https://participa.zaragozaencomun.com' target='_blank' >https://participa.zaragozaencomun.com</a> i estar inscrit/a a <a href='https://participa.zaragozaencomun.com' target='_blank'>https://participa.zaragozaencomun.com</a>.</p>
       </div> <!-- cd-faq-content -->
       </li>
       <li>
       <li>
       <a class='cd-faq-trigger' href='#0'>12. Puc votar sense tenir ordinador?</a>
       <div class='cd-faq-content'>
-        <p>Sí. Barcelona En Comú ha habilitat diversos punts de votació digital assistida
+        <p>Sí. Zaragoza En Común ha habilitat diversos punts de votació digital assistida
       </div> <!-- cd-faq-content -->
       </li>
       <li>
         <li>
       <a class='cd-faq-trigger' href='#0'>13. Si no tinc un dispositiu mòbil (telèfon intel•ligent/tàblet), puc votar?</a>
       <div class='cd-faq-content'>
-        <p>Sí, pots votar també des d'un ordinador amb accés a Internet a participa.barcelonaencomu.cat. El mòbil només cal per registrar-se.</p>
+        <p>Sí, pots votar també des d'un ordinador amb accés a Internet a participa.zaragozaencomun.com. El mòbil només cal per registrar-se.</p>
       </div> <!-- cd-faq-content -->
       </li>
       <li>
@@ -634,7 +622,7 @@ Amb tres passos molt senzills:
       <li>
       <a class='cd-faq-trigger' href='#0'>23. Com s'assegura que cada persona vota una sola vegada i que només voten les persones amb dret a fer-ho?</a>
       <div class='cd-faq-content'>
-        <p>Gràcies al sistema d'autenticació al portal de participació de Barcelona En Comú s'assegura que només aquelles persones que figurin en el cens de Barcelona En Comú poden votar i es controla que només hi hagi un vot per persona.</p>
+        <p>Gràcies al sistema d'autenticació al portal de participació de Zaragoza En Común s'assegura que només aquelles persones que figurin en el cens de Zaragoza En Común poden votar i es controla que només hi hagi un vot per persona.</p>
       </div> <!-- cd-faq-content -->
       </li>
       <li>
@@ -646,21 +634,21 @@ Amb tres passos molt senzills:
        <li>
       <a class='cd-faq-trigger' href='#0'>25. Tinc més preguntes.</a>
       <div class='cd-faq-content'>
-        <p>En aquest cas, pots contactar amb nosaltres i intentarem resoldre els teus dubtes, preguntes o comentaris enviant un mail a eleccions@bcnencomu.cat.</p>
+        <p>En aquest cas, pots contactar amb nosaltres i intentarem resoldre els teus dubtes, preguntes o comentaris enviant un mail a eleccions@zaragozaencomun.com.</p>
       </div> <!-- cd-faq-content -->"
   domicilio: "Domicili"
   consentimiento: "Consentiment"
   accepto1_html: 'Accepto la Política de Privacitat, Avís Legal i Politica de Cookies<br />
-  <a target="_blank" href="https://barcelonaencomu.cat/ca/politica-de-privacitat">Mira la política de privacitat</a><br>
-<a target="_blank" href="https://barcelonaencomu.cat/ca/avis-legal">Mira avís legal</a><br>
-<a target="_blank" href="https://barcelonaencomu.cat/ca/politica-de-cookies">Mira la política de galetes</a></p>'
-  welcome_html: "<p><strong>Et donem la benvinguda al portal de participació de Barcelona En Comú ! </Strong> </ p>
-<p> Som una plataforma ciutadana amb un projecte col•lectiu per transformar Barcelona. Una comunitat àmplia i diversa que treballa per convertir Barcelona en un referent de la democràcia, la participació, la transparència, els drets socials, la defensa del bé comú i la lluita contra la desigualtat i la corrupció.</p>
+  <a target="_blank" href="https://zaragozaencomun.com/ca/politica-de-privacitat">Mira la política de privacitat</a><br>
+<a target="_blank" href="https://zaragozaencomun.com/ca/avis-legal">Mira avís legal</a><br>
+<a target="_blank" href="https://zaragozaencomun.com/ca/politica-de-cookies">Mira la política de galetes</a></p>'
+  welcome_html: "<p><strong>Et donem la benvinguda al portal de participació de Zaragoza En Común ! </Strong> </ p>
+<p> Som una plataforma ciutadana amb un projecte col•lectiu per transformar Zaragoza. Una comunitat àmplia i diversa que treballa per convertir Zaragoza en un referent de la democràcia, la participació, la transparència, els drets socials, la defensa del bé comú i la lluita contra la desigualtat i la corrupció.</p>
 <p> Inscriu-t'hi i participa-hi! Construïm en comú la ciutat on volem viure."
   voting:
     title: "Benvingut a Participa!"
     election_one: Hi ha una votació en curs.
-    election_none: No hi ha cap votació en curs. Quan hi hagi cap votació t'avisarem per correu electrònic. Gràcies per pertànyer a la comunitat de Barcelona En Comú.
+    election_none: No hi ha cap votació en curs. Quan hi hagi cap votació t'avisarem per correu electrònic. Gràcies per pertànyer a la comunitat de Zaragoza En Común.
     election_mul_html: "Hi ha 3 votacions. Cada votació és independent. No oblidis votar a totes 3.<br/><br/>
   Pots canviar el vot al llarg del procés (votant de nou en la mateixa opció). El nou vot reemplaçarà l'emès anteriorment de forma automàtica. Només l'últim és vàlid.<br/>"
     election_use_one: La votació utilitza
@@ -683,12 +671,12 @@ Amb tres passos molt senzills:
     user_unverified: No t'has verificat
     pending0_html: No has acabat la verificació
     pending1_html: Per acabar el procés de verificació necessites aportar documentació de forma presencial.
-    pending2_html: <b>Porta un DNI o NIE</b> que tingui l'adreça de Barcelona
-    pending3_html: No tens adreça a Barcelona?
-    pending4_html: "<li>Porta el:</li><li><b>DNI/NIE</b> amb adreça</li><li><li> de fora de Barcelona </li><li> o el <b>passaport</b></li><li> o el <b>carnet de conduir</b></li>"
+    pending2_html: <b>Porta un DNI o NIE</b> que tingui l'adreça de Zaragoza
+    pending3_html: No tens adreça a Zaragoza?
+    pending4_html: "<li>Porta el:</li><li><b>DNI/NIE</b> amb adreça</li><li><li> de fora de Zaragoza </li><li> o el <b>passaport</b></li><li> o el <b>carnet de conduir</b></li>"
     pending5_html: i també
     pending6_html: "<li><b>empadronament</b>,</li><li><b>targeta censal</b></li><li> o qualsevol <b>rebut</b></li><li> (llum, aigua o gas)</li><li> de l'últim any.</li>"
-    pending7_html: 
+    pending7_html: Dissabte 6 de juny publicarem els punts on pots verificar-te.
     title: Verificació
     step1: Documents
     step2: Cerca
@@ -711,32 +699,21 @@ Amb tres passos molt senzills:
       already: "L'usuari/ària amb document %{document} ja estava verificat. L'usuari/ària ja podrà votar."
       ok: "S'ha verificat l'usuari/ària correctament. Li hem enviat un  correu avisant-lo. Podrà votar en les pròximes votacions. Pots  continuar amb el següent usuari/ària."
       not_found: "No hem trobat un usuari/ària amb aquest document o correu electrònic. Búsqueda: %{query1} %{query2}"
-      problem: "Hi ha hagut un problema buscant aquest usuari/ària. Fes una foto al document, demana-li el seu correu electrònc i envia'l a  eleccions@bcnencomu.cat"
+      problem: "Hi ha hagut un problema buscant aquest usuari/ària. Fes una foto al document, demana-li el seu correu electrònc i envia'l a  eleccions@zaragozaencomun.com"
     mailer:
       hello: "Hola %{user},"
       bye: Salutacions
       finish:
-        subject: Barcelona en Comú - Fin del primer proceso de verificación
+        subject: Zaragoza en Común - Fin del primer proceso de verificación
       to_verify:
-        subject: Barcelona en Comú - Faltan 2 días para verificarte
+        subject: Zaragoza en Común - Faltan 2 días para verificarte
       verified_legacy:
-        subject: Barcelona en Comú - No hace falta que te verifiques
+        subject: Zaragoza en Común - No hace falta que te verifiques
       verified:
-        subject: Barcelona en Comú - Has estat verificat correctament
-        message: "Has sigut verificat i ja formes part de la comunitat de Barcelona en Comú. A partir d'ara ja no necessites verificar-te més i podràs participar a les consultes futures. Cada cop que hi hagi una consulta t'avisarem per coreru electrònic perquè puguis participar. Recorda que ara formes part de la comunitat de Barcelona en Comú."
+        subject: Zaragoza en Común - Has estat verificat correctament
+        message: "Has sigut verificat i ja formes part de la comunitat de Zaragoza en Común. A partir d'ara ja no necessites verificar-te més i podràs participar a les consultes futures. Cada cop que hi hagi una consulta t'avisarem per coreru electrònic perquè puguis participar. Recorda que ara formes part de la comunitat de Zaragoza en Común."
     form:
       document: "He verificat el document original de l'inscrit/a"
       age: "L'inscrit/a és major de 16 anys - nascut abans de %{date}"
-      town: "He verificat un document (DNI/NIE/Passaport, rebut d'un subministrament) que acredita que l'inscrit/a viu a Barcelona."
-  tools:
-    index: 
-      title: "Eines de participació ciutadana"
-    tool_box:
-      box1:
-        title: "Àgora"
-        description: "Accediu al fòrum per compartir, aprendre i debatre. La informació i el coneixement també el fem en comú"
-        button: "Anar al àgora"
-      box2:
-        title: "Fitxers"
-        description: "Accediu als documents treballats als vostres espais de Barcelona en Comú. Teniu els documents ordenats per grups, carpetes i subcarpetes."
-        button: "Anar als fitxers"
+      town: "He verificat un document (DNI/NIE/Passaport, rebut d'un subministrament) que acredita que l'inscrit/a viu a Zaragoza."
+

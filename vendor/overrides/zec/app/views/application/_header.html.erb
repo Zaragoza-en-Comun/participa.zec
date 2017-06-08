@@ -6,8 +6,8 @@
       <%= link_to root_path do %>
         <%= image_tag "logo_participa.png" %>
       <% end %>
-      <%= link_to "https://barcelonaencomu.cat/", class: "logo-bcomu" do %>
-        <%= image_tag "logo.bec-220-w.png" %>
+      <%= link_to "https://zaragozaencomun.es/", class: "logo-zcomun" do %>
+        <%= image_tag "logo.zec-220-w.png" %>
       <% end %>
     </div>
 
@@ -18,7 +18,7 @@
         <% if user_signed_in? %>
           <div class="profile-info" data-verified="true">
             <%= link_to edit_user_registration_path, class: "username" do %>
-              <i class="icon"></i> 
+              <i class="icon"></i>
               <%= current_user.full_name %>
             <% end %>
             <% if current_user.is_verified? %>
@@ -33,12 +33,12 @@
         <% end %>
 
         <ul class="language-switcher-locale-url">
-          <li class="lang-catala">
-            <%= link_to "Cat", url_for(locale: :ca), class: current_lang_class(:ca) %>
-          </li>
           <li class="lang-castellano">
             <%= link_to "Cast", url_for(locale: :es), class: current_lang_class(:es) %>
           </li>
+          <%#li class="lang-catala">
+            <%= link_to "Cat", url_for(locale: :ca), class: current_lang_class(:ca) %>
+          <%#/li%>
         </ul>
 
       </div><%#.col-h-2a4%>
@@ -50,7 +50,7 @@
     <div class="col-h-1a12">
 
       <nav class="menu" id="top_menu">
-        <%= link_to t('voting.continue'), 'https://participa.barcelonaencomu.cat', class:"js-return-vote menu-return-vote", style:"display: none;" %>
+        <%= link_to t('voting.continue'), 'https://participa.zaragozaencomun.com', class:"js-return-vote menu-return-vote", style:"display: none;" %>
         <ul>
           <li class="menu-hamb">
             <a id="hamburger_menu" href="#">

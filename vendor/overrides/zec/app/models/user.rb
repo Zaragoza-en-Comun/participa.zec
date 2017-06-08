@@ -2,13 +2,13 @@
 require_dependency Rails.root.join('app', 'models', 'user').to_s
 
 class User
-	
+
 	belongs_to :verified_by, class_name: "User", foreign_key: "verified_by_id" #, counter_cache: :verified_by_id
 
   validates :district, presence: true
   validates :inscription, acceptance: true
 
-  DISTRICT = [["Ciutat Vella", 1], ["Eixample", 2], ["Sants-Montjuïc", 3], ["Les Corts", 4], ["Sarrià-Sant Gervasi", 5], ["Gràcia", 6], ["Horta-Guinardó", 7], ["Nou Barris", 8], ["Sant Andreu", 9], ["Sant Martí", 0]]
+	DISTRICT = [["Actur-Rey Fernando", 1], ["Casablanca", 2], ["Casco Histórico", 3], ["Centro", 4], ["Delicias", 5], ["El Rabal", 6], ["La Almozara", 7], ["Las Fuentes", 8], ["Miralbueno", 9], ["Oliver-Valdefierro", 0], ["San José", 11], ["Santa Isabel", 12], ["Torrero", 13], ["Universidad", 14], ["Barrios Rurales", 15]]
 
   def district_name
     User::DISTRICT.select{|v| v[1] == self.district }[0][0]
@@ -21,8 +21,8 @@ class User
 
   def set_location
     self.country = "ES" if self.country.nil?
-    self.province = "B" if self.province.nil?
-    self.town = "m_08_019_3" if self.town.nil?
+    self.province = "Z" if self.province.nil?
+    self.town = "m_50_297_3" if self.town.nil?
   end
 
   def is_verified?
@@ -44,16 +44,12 @@ class User
   def vote_district_code
     "d_%02d" % + self.district
   end
-  
+
   def verify! user
     self.verified_at = DateTime.now
     self.verified_by = user
     self.save
     VerificationMailer.verified(self).deliver
-  end
-
-  def list_groups
-    self.groups.pluck(:name).map{|group| group.downcase.parameterize('-')}
   end
 
 end

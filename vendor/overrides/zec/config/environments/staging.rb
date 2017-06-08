@@ -14,7 +14,7 @@ Rails.application.configure do
   #  :authentication => :plain,
   #  :user_name      => Rails.application.secrets.mailjet["api_key"],
   #  :password       => Rails.application.secrets.mailjet["secret_key"],
-  #  :domain         => 'barcelonaencomu.cat'
+  #  :domain         => 'zaragozaencomun.com'
   #}
 
 end
