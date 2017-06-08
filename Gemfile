@@ -60,7 +60,7 @@ gem 'sepa_king' # for generate SEPA XML files
 gem 'doorkeeper'
 
 group :development, :test do
-  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano', '~> 3.8.1'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-passenger'

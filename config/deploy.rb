@@ -1,5 +1,4 @@
-# config valid only for Capistrano 3.4.0
-lock '3.4.1'
+lock '3.8.1'
 
 set :application, 'participa.zaragozaencomun.com'
 set :repo_url, 'https://github.com/Zaragoza-en-comun/participa.zec'
