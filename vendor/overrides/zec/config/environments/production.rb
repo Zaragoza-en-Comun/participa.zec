@@ -4,4 +4,12 @@ Rails.application.configure do
   config.i18n.fallbacks = [:es]
 
   config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.smtp_settings = {
+    :address        => Rails.application.secrets.smtp_address,
+    :port           => Rails.application.secrets.smtp_port,
+    :authentication => Rails.application.secrets.smtp_authentication,
+    :user_name      => Rails.application.secrets.smtp_username,
+    :password       => Rails.application.secrets.smtp_password,
+    :enable_starttls_auto => Rails.application.secrets.smtp_starttls_auto,
+  }
 end
