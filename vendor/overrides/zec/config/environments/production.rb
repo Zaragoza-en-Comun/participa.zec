@@ -11,5 +11,7 @@ Rails.application.configure do
     :user_name      => Rails.application.secrets.smtp_username,
     :password       => Rails.application.secrets.smtp_password,
     :enable_starttls_auto => Rails.application.secrets.smtp_starttls_auto,
+    :openssl_verify_mode => 'none'
+
   }
 end
