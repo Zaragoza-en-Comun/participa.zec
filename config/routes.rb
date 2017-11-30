@@ -24,11 +24,19 @@ Rails.application.routes.draw do
 
   scope "/(:locale)", locale: /es|ca|eu/ do
 
-    get '/openid/discover', to: 'open_id#discover', as: "open_id_discover"
-    get '/openid', to: 'open_id#index', as: "open_id_index"
-    post '/openid', to: 'open_id#create', as: "open_id_create"
-    get '/user/:id', to: 'open_id#user', as: "open_id_user"
-    get '/user/xrds', to: 'open_id#xrds', as: "open_id_xrds"
+    if Rails.application.secrets.openid.try(:[], "enabled")
+      # WARNING!!
+      # Enable this only for internal traffic
+      # add the following line in secrets.yml to enable this:
+      # openid:
+      #   enabled: true
+
+      get '/openid/discover', to: 'open_id#discover', as: "open_id_discover"
+      get '/openid', to: 'open_id#index', as: "open_id_index"
+      post '/openid', to: 'open_id#create', as: "open_id_create"
+      get '/user/:id', to: 'open_id#user', as: "open_id_user"
+      get '/user/xrds', to: 'open_id#xrds', as: "open_id_xrds"
+    end
 
     get '/countvotes/:election_id', to: 'page#count_votes', as: 'page_count_votes'
 
