@@ -22,11 +22,11 @@ es:
       last_attempt: "Tienes un intento más antes que tu cuenta quede bloqueada."
     mailer:
       confirmation_instructions:
-        subject: "Zaragoza en Comúnn - Instrucciones de confirmación"
+        subject: "Zaragoza en Común - Instrucciones de confirmación"
       reset_password_instructions:
-        subject: "Zaragoza en Comúnn - Instrucciones para restablecer tu contraseña"
+        subject: "Zaragoza en Común - Instrucciones para restablecer tu contraseña"
       unlock_instructions:
-        subject: "Zaragoza en Comúnn - Instrucciones de desbloqueo"
+        subject: "Zaragoza en Común - Instrucciones de desbloqueo"
     omniauth_callbacks:
       failure: "No se te pudo autorizar de %{kind} debido a \"%{reason}\"."
       success: "Identificado correctamente de %{kind}."
