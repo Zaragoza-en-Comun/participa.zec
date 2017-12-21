@@ -21,7 +21,7 @@ class User
 
   def set_location
     self.country = "ES" if self.country.nil?
-    self.province = "ZA" if self.province.nil?
+    self.province = "Z" if self.province.nil?
     self.town = "m_50_297_3" if self.town.nil?
   end
 
