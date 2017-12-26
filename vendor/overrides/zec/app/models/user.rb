@@ -8,7 +8,7 @@ class User
   validates :district, presence: true
   validates :inscription, acceptance: true
 
-	DISTRICT = [["Actur-Rey Fernando", 1], ["Casablanca", 2], ["Casco Histórico", 3], ["Centro", 4], ["Delicias", 5], ["El Rabal", 6], ["La Almozara", 7], ["Las Fuentes", 8], ["Miralbueno", 9], ["Oliver-Valdefierro", 0], ["San José", 11], ["Santa Isabel", 12], ["Torrero", 13], ["Universidad", 14], ["Barrios Rurales", 15]]
+	DISTRICT = [["Actur-Rey Fernando", 1], ["Casablanca", 2], ["Casco Histórico", 3], ["Centro", 4], ["Delicias", 5], ["El Rabal", 6], ["La Almozara", 7], ["Las Fuentes", 8], ["Miralbueno", 9], ["Oliver-Valdefierro", 0], ["San José", 11], ["Santa Isabel", 12], ["Torrero", 13], ["Universidad", 14], ["Alfocea", 16], ["Casetas", 17], ["Garrapinillos", 18], ["Juslibol", 19], ["La Cartuja Baja", 2], ["Montañana", 21], ["Monzalbarba", 22], ["Movera", 23], ["Peñaflor", 24], ["San Gregorio", 25], ["San Juan de Mozarrifar", 26], ["Torrecilla del Valmadrid", 27], ["Venta del Olivar", 28], ["Villarrapa", 29]]
 
   def district_name
     User::DISTRICT.select{|v| v[1] == self.district }[0][0]
