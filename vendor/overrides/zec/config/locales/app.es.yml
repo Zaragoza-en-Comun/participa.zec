@@ -6,7 +6,7 @@ es:
         message_html: "No pudimos encontrar esa página. Vuélvelo a intentarlo más tarde o <a href='/'>prueba desde la página principal</a>."
       "500":
         title: "Error en el servidor"
-        message_html: "Hubo un error en el servidor. Puedes avisarnos en <a href='mailto:incidencia@zaragozaencomun.com'>incidencias@zaragozaencomun.com</a>"
+        message_html: "Hubo un error en el servidor. Puedes avisarnos en <a href='mailto:incidencia@zaragozaencomun.com'>admin@zaragozaencomun.com</a>"
     messages:
       not_valid_spanish_vat: El número de identificación fiscal no es válido
       not_valid_nif: El DNI no es válido
@@ -167,17 +167,17 @@ De conformidad con lo dispuesto en el artículo 16.3 de la Ley Orgánica de Prot
         hello: "Hola"
         welcome: "Bienvenido/a"
         lock:
-          p1: "Tu cuenta ha sido bloqueada por un número excesivo de intentos de inicio de sesión fallidos. Si no has sido tú, avísanos a través de incidencias@zaragozaencomun.com."
+          p1: "Tu cuenta ha sido bloqueada por un número excesivo de intentos de inicio de sesión fallidos. Si no has sido tú, avísanos a través de admin@zaragozaencomun.com."
           p2: "Haz click en el enlace de aquí abajo para desbloquear tu cuenta:"
           link: 'Desbloquear mi cuenta'
-          p3: "Esta dirección de correo no permite respuesta. Si tienes cualquier problema con el registro, por favor, contacta con incidencias@zaragozaencomun.com"
+          p3: "Esta dirección de correo no permite respuesta. Si tienes cualquier problema con el registro, por favor, contacta con admin@zaragozaencomun.com"
         confirm:
           p1: "Te has dado de alta o has cambiado tu correo electrónico en el entorno Zaragoza en Común. Si no es ese el caso, ignora este correo. Puedes confirmar que esta es tu dirección de correo a través del siguiente enlace:"
           link: 'Confirmar mi cuenta'
-          p2: "Esta dirección de correo no permite respuesta. Si tienes cualquier problema con el registro, por favor, contacta con incidencias@zaragozaencomun.com"
+          p2: "Esta dirección de correo no permite respuesta. Si tienes cualquier problema con el registro, por favor, contacta con admin@zaragozaencomun.com"
         password:
           p1: "Alguien ha pedido que cambies tu contraseña. Puedes hacerlo mediante el siguiente enlace:"
-          p2: "Esta cuenta de correo electrónico no acepta respuestas. Si tienes cualquier problema con el registro, por favor, contacta con incidencias@zaragozaencomun.com"
+          p2: "Esta cuenta de correo electrónico no acepta respuestas. Si tienes cualquier problema con el registro, por favor, contacta con admin@zaragozaencomun.com"
           p3: "Si no has sido tú, por favor, no hagas caso de este mensaje. Tu contraseña no cambiará hasta que valides este enlace y crees una nueva."
           link: 'Cambiar contraseña'
     navbar:
@@ -272,7 +272,7 @@ Al marcar la casilla “He leído y acepto las condiciones generales" el USUARIO
           text_html: "Grupo Municipal Zaragoza en Común (en adelante Zaragoza en Común) <br> CIF V99445470 <br> Plaza del Pilar, 3 <br> 50003 Zaragoza"
         p2:
           subtitle: "Contacto"
-          text_html: "Información general: incidencias@zaragozaencomun.com <br> Incidencias inscripciones: incidencias@zaragozaencomun.com <br> Protección de datos: incidencias@zaragozaencomun.com <br>"
+          text_html: "Información general: admin@zaragozaencomun.com <br> Incidencias inscripciones: admin@zaragozaencomun.com <br> Protección de datos: admin@zaragozaencomun.com <br>"
       p2:
         title: "Condiciones generales de acceso y uso de la web "
         p1:
@@ -448,7 +448,7 @@ Zaragoza en Común cumple con todas las medidas de seguridad para la protección
 </p>"
         p2:
           subtitle: "Ejercicios de los derechos de acceso, rectificación, cancelación y oposición"
-          text_html: "Para ejercer los derechos de acceso, rectificación, cancelación y posición el USUARIO/A puede utilizar los formularios disponibles en la página web del perfil de usuario o dirigirse por correo electrónico a incidencias@zaragozaencomun.com indicando su nombre y apellidos y adjuntando copia de su DNI o documento legal de identificación."
+          text_html: "Para ejercer los derechos de acceso, rectificación, cancelación y posición el USUARIO/A puede utilizar los formularios disponibles en la página web del perfil de usuario o dirigirse por correo electrónico a admin@zaragozaencomun.com indicando su nombre y apellidos y adjuntando copia de su DNI o documento legal de identificación."
       p4:
         title: "Aceptación de las presentes condiciones generales"
         p1:
@@ -528,7 +528,7 @@ Zaragoza en Común cumple con todas las medidas de seguridad para la protección
           </div> <!-- cd-faq-content -->
           <a class="cd-faq-trigger" href="#0">5. Sigo sin poder acceder al portal de participación. ¿Cómo puedo comunicarme con el equipo de soporte?</a>
           <div class="cd-faq-content">
-            <p>Si tienes algún problema puedes comunicarte con nosotros en <a href="mailto:incidencias@zaragozaencomun.com">incidencias@zaragozaencomun.com</a> indicando si procede los siguientes datos:</p>
+            <p>Si tienes algún problema puedes comunicarte con nosotros en <a href="mailto:admin@zaragozaencomun.com">admin@zaragozaencomun.com</a> indicando si procede los siguientes datos:</p>
             <p>Nombre y apellidos:<br />
             Correo electrónico:<br />
             DNI:<br />
@@ -545,7 +545,7 @@ Zaragoza en Común cumple con todas las medidas de seguridad para la protección
           <a class='cd-faq-trigger' href='#0'>7. No me llegan correos a ninguna de mis cuentas. Creo que me he equivocado de correo electrónico. </a>
           <div class='cd-faq-content'>
             <p><strong>Causa:</strong><br />Puede que escribieras mal el correo en el proceso de registro o el registro fue incompleto. </p>
-             <p> <strong> Solución:</strong><br />Escribe un correo a <a href='mailto:incidencias@zaragozaencomun.com'>incidencias@zaragozaencomun.com</a>indicando tus datos personales y adjuntando fotocopia de tu DNI o pasaporte y te daremos de baja para que vuelvas a inscribirte.</p>
+             <p> <strong> Solución:</strong><br />Escribe un correo a <a href='mailto:admin@zaragozaencomun.com'>admin@zaragozaencomun.com</a>indicando tus datos personales y adjuntando fotocopia de tu DNI o pasaporte y te daremos de baja para que vuelvas a inscribirte.</p>
      </div> <!-- cd-faq-content -->
           </li>"
 
@@ -662,7 +662,7 @@ Zaragoza en Común cumple con todas las medidas de seguridad para la protección
           <li>
           <a class="cd-faq-trigger" href="#0">25. Tengo más preguntas</a>
           <div class="cd-faq-content">
-            <p>En ese caso, puedes contactar con nosotros e intentaremos resolver tus dudas, preguntas, o comentarios enviando un mail a incidencias@zaragozaencomun.com.</p>
+            <p>En ese caso, puedes contactar con nosotros e intentaremos resolver tus dudas, preguntas, o comentarios enviando un mail a admin@zaragozaencomun.com.</p>
           </div> <!-- cd-faq-content -->'
   domicilio: "Domicilio"
   consentimiento: "Consentimiento"
@@ -802,7 +802,7 @@ Gracias por inscribirte en Zaragoza en Común."
         p2: Gracias por colaborar con Zaragoza En Común.
       ko:
         title: Hubo un error con tu colaboración.
-        contact: Por favor intenta realizar el pago nuevamente. Si continúas teniendo problemas contacta a incidencias@zaragozaencomun.com
+        contact: Por favor intenta realizar el pago nuevamente. Si continúas teniendo problemas contacta a admin@zaragozaencomun.com
       passport_message_html: "<p>Según nuestra base de datos estás inscrito con un número de pasaporte.</p> <p>Dado que la Ley Orgánica 8/2007, de 4 de julio, sobre financiación de los partidos políticos, exige la identificación fiscal de los donantes, para poder colaborar económicamente con PODEMOS y poder cumplimentar el formulario de alta como colaborador es imprescindible disponer de DNI o NIE.</p> <p>Si eres español o extranjero con NIE envíanos una copia de tu DNI o documento donde conste tu número de identificación de extranjero a la dirección colaboraciones@podemos.info para que podamos actualizar los datos de tu inscripción.</p>"
       over: Declaro ser mayor de 18 años.
       next: "Ya tienes una colaboración. Es la siguiente:"
@@ -832,7 +832,7 @@ Al confirmar este formulario aceptáis que:
 
     La cantidad que dáis no os ha sido entregada por parte de alguna persona o entidad con el objetivo que esta donación se pueda hacer.'
         p2_title: "Protección de datos de carácter personal."
-        p2: 'Zaragoza En Común, de acuerdo con la Ley orgánica 15/1999, de protección de datos de carácter personal, os informa que vuestros datos serán incorporados al fichero “donaciones”, del cual es responsable Zaragoza En Común, que las empleará para tramitar vuestra colaboración, gestionar los cargos bancarios y cumplir con la normativa de financiación de partidos políticos, así como con finalidades estadísticas y haceros llegar periódicamente información de sus actividades. Concedéis el consentimiento expreso para que estos datos pasen a formar parte de Zaragoza En Común. Para ejercer vuestros derechos de acceso, rectificación, cancelación u oposición, como por ejemplo cancelar la suscripción, modificar los datos bancarios o el importe y frecuencia de vuestra donación, podéis enviar un correo electrónico a incidencias@zaragozaencomun.com, indicando la referencia “modificación de la donación” o por correo postal a la sede social sita en la calle (Sede Zaragoza en Común), adjuntando copia de vuestro documento nacional de identidad.  '
+        p2: 'Zaragoza En Común, de acuerdo con la Ley orgánica 15/1999, de protección de datos de carácter personal, os informa que vuestros datos serán incorporados al fichero “donaciones”, del cual es responsable Zaragoza En Común, que las empleará para tramitar vuestra colaboración, gestionar los cargos bancarios y cumplir con la normativa de financiación de partidos políticos, así como con finalidades estadísticas y haceros llegar periódicamente información de sus actividades. Concedéis el consentimiento expreso para que estos datos pasen a formar parte de Zaragoza En Común. Para ejercer vuestros derechos de acceso, rectificación, cancelación u oposición, como por ejemplo cancelar la suscripción, modificar los datos bancarios o el importe y frecuencia de vuestra donación, podéis enviar un correo electrónico a admin@zaragozaencomun.com, indicando la referencia “modificación de la donación” o por correo postal a la sede social sita en la calle (Sede Zaragoza en Común), adjuntando copia de vuestro documento nacional de identidad.  '
         p3_title: "Consentimiento de la orden de domiciliación"
         p3: 'Autorizáis a Zaragoza En Común y a vuestra entidad bancaria a efectuar las operaciones de cobro mediante cargos a la cuenta bancaria que nos habéis facilitado, por el importe y con la frecuencia que nos habéis indicado en el formulario. Los cargos domiciliados se realizarán entre los días 10 y 15 de cada mes.'
       freq:
