@@ -274,7 +274,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
-    pg (1.0.0)
+    pg (0.21.0)
     phone (1.2.3)
     poltergeist (1.17.0)
       capybara (~> 2.1)
@@ -478,7 +478,7 @@ DEPENDENCIES
   paper_trail
   paperclip
   paranoia!
-  pg
+  pg (~> 0.15)
   phone
   poltergeist
   pushmeup
