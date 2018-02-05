@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   include Rails.application.routes.url_helpers
   require 'phone'
+  require 'zarago_zen_comun'
+
 
   has_flags 1 => :banned,
             2 => :superadmin,
@@ -22,6 +24,8 @@ class User < ActiveRecord::Base
 
   before_update :_clear_caches
   before_save :before_save
+  before_create :add_username
+  before_update :update_api
 
   acts_as_paranoid
   has_paper_trail
@@ -633,6 +637,16 @@ class User < ActiveRecord::Base
         self.vote_district = nil if self.vote_town_changed? # remove this when the user is allowed to choose district
       end
     end
+  end
+
+  def add_username
+    username = ZaragoZenComun.find_and_create_account(self.first_name, self.last_name, self.email, self.password)
+    self.username = username
+  end
+
+  def update_api
+    name = "#{self.first_name} #{self.last_name}"
+    ZaragoZenComun.account_update(self.username, self.email, name, self.password)
   end
 
   def in_participation_team? team_id
