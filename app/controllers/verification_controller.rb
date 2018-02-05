@@ -1,13 +1,14 @@
+require 'zarago_zen_comun'
 class VerificationController < ApplicationController
 
   # TODO: checkbox TOS
   # TODO: mail TOS
   # TODO: confirm mail TOS
- 
+
   # GET /verificaciones
   def show
     authorize! :show, :verification
-    @centers = Verification::Center.where( id: 57 )
+  #  @centers = Verification::Center.where( id: 57 )
   end
 
   # GET /verificadores
@@ -42,19 +43,19 @@ class VerificationController < ApplicationController
     if params[:user]
       @user = User.find_by_email(params[:user][:email]) # || User.find_by_document_vatid(params[:user][:document_vatid])
       if @user
-        if @user.is_verified? 
+        if @user.is_verified?
           if @user.verified_by_id?
             flash.now[:notice] = t('verification.alerts.already_presencial', document: @user.document_vatid, by: @user.verified_by.full_name, when: @user.verified_at)
-          elsif @user.sms_confirmed_at? 
+          elsif @user.sms_confirmed_at?
             flash.now[:notice] = t('verification.alerts.already_sms', document: @user.document_vatid, when: @user.sms_confirmed_at)
-          else 
+          else
             flash.now[:notice] = t('verification.alerts.already', document: @user.document_vatid)
           end
           render :step2
         else
           render :step3
         end
-      else 
+      else
         flash.now[:error] = t('verification.alerts.not_found', query1: params[:user][:email], query2: params[:user][:document_vatid] )
         render :step2
       end
@@ -62,11 +63,12 @@ class VerificationController < ApplicationController
       redirect_to verification_step1_path
     end
   end
-  
+
   # POST /verificadores/confirm
   def confirm
     authorize! :confirm, :verification
     @user = User.find params[:id]
+    ZaragoZenComun.account_validate(@user.username)
     if @user.verify! current_user
       redirect_to verification_result_ok_path
     else
