@@ -1,20 +1,13 @@
 class Election < ActiveRecord::Base
-  include FlagShihTzu
 
   SCOPE = [["Estatal", 0], ["Comunidad", 1], ["Provincial", 2], ["Municipal", 3], ["Insular", 4], ["Extranjeros", 5]]
   
-  has_flags 1 => :requires_sms_check, check_for_column: false
-
   validates :title, :starts_at, :ends_at, :agora_election_id, :scope, presence: true
   has_many :votes
-  has_many :election_locations, dependent: :destroy
+  has_many :election_locations
  
   scope :active, -> { where("? BETWEEN starts_at AND ends_at", Time.now).order(priority: :asc)}
   scope :upcoming_finished, -> { where("ends_at > ? AND starts_at < ?", 2.days.ago, 12.hours.from_now).order(priority: :asc)}
-
-  def to_s
-    "#{title}"
-  end
 
   def is_active?
     ( self.starts_at .. self.ends_at ).cover? DateTime.now
@@ -44,8 +37,7 @@ class Election < ActiveRecord::Base
         suffix = " (no hay votación#{suffix})"
       end
     end
-    #"#{self.title}#{suffix}"
-  "#{self.title}"
+    "#{self.title}#{suffix}"
   end
 
   def has_location_for? user
@@ -54,12 +46,12 @@ class Election < ActiveRecord::Base
 
   def has_valid_location_for? user
     case self.scope
-      when 0 then self.election_locations.any?
+      when 0 then true
       when 1 then user.has_vote_town? and self.election_locations.any? {|l| l.location == user.vote_autonomy_numeric}
       when 2 then user.has_vote_town? and self.election_locations.any? {|l| l.location == user.vote_province_numeric}
       when 3 then user.has_vote_town? and self.election_locations.any? {|l| l.location == user.vote_town_numeric}
       when 4 then user.has_vote_town? and self.election_locations.any? {|l| l.location == user.vote_island_numeric}
-      when 5 then user.country!="ES" and self.election_locations.any?
+      when 5 then user.country!="ES"
     end
   end
 
@@ -96,7 +88,7 @@ class Election < ActiveRecord::Base
         "00"
     end
     election_location = self.election_locations.find_by_location user_location
-    election_location.vote_id
+    "#{self.agora_election_id}#{election_location.override or election_location.location}#{election_location.agora_version}".to_i
   end
 
   def locations
@@ -105,6 +97,7 @@ class Election < ActiveRecord::Base
 
   def locations= value
     ElectionLocation.transaction do
+      self.election_locations.destroy_all
       value.split("\n").each do |line|
         if not line.strip.empty?
           line_raw = line.strip.split(',')
@@ -129,9 +122,5 @@ class Election < ActiveRecord::Base
     server = Rails.application.secrets.agora["default"]
     server = self.server if self.server and !self.server.empty?
     Rails.application.secrets.agora["servers"][server]["url"]
-  end
-
-  def duration
-    ((ends_at-starts_at)/60/60).to_i
   end
 end

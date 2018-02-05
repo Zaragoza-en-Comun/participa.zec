@@ -7,7 +7,7 @@ def show_order o, html_output = true
               "o"
             elsif o.was_returned?
               "d"
-            elsif o.is_chargeable? or not o.persisted?
+            elsif o.is_chargable? or not o.persisted?
               "_"
             else
               "~"
@@ -33,25 +33,16 @@ def show_collaboration_orders(collaboration, html_output = true)
   html_output ? output.html_safe : output
 end
 
-def use_resque
-  return Rails.application.secrets.features["use_resque"]
-end
-
-
 ActiveAdmin.register Collaboration do
-if Rails.application.secrets.features["collaborations"]
+
+  if Rails.application.secrets.features["collaborations"]
     menu :parent => "Colaboraciones"
-  else
+  else 
     menu false
   end
-  
-  scope_to Collaboration, association_method: :full_view
-  config.sort_order = 'updated_at_desc'
-
-  menu :parent => "Colaboraciones"
 
   permit_params  :user_id, :status, :amount, :frequency, :payment_type, :ccc_entity, :ccc_office, :ccc_dc, :ccc_account, :iban_account, :iban_bic, 
-    :redsys_identifier, :redsys_expiration, :for_autonomy_cc, :for_town_cc, :for_island_cc
+                :redsys_identifier, :redsys_expiration, :for_autonomy_cc, :for_town_cc
 
   actions :all, :except => [:new]
 
@@ -64,15 +55,13 @@ if Rails.application.secrets.features["collaborations"]
   scope :active
   scope :warnings
   scope :errors
-  scope :suspects
   scope :legacy
   scope :non_user
   scope :deleted
   scope :autonomy_cc
   scope :town_cc
-  scope :island_cc
 
-  index download_links: -> { current_user.is_admin? && current_user.finances_admin? } do
+  index do
     selectable_column
     id_column
     column :user do |collaboration|
@@ -96,11 +85,10 @@ if Rails.application.secrets.features["collaborations"]
     end
     column :territorial do |collaboration|
       status_tag("Cca") if collaboration.for_autonomy_cc
-      status_tag("Ccm") if collaboration.for_town_cc
-      status_tag("Cci") if collaboration.for_island_cc
+      status_tag("Ccm") if collaboration.for_autonomy_cc and collaboration.for_town_cc
     end
     column :info do |collaboration|
-      status_tag("BIC", :error) if collaboration.is_bank? && collaboration.calculate_bic.nil?
+      status_tag("BIC", :error) if collaboration.is_bank? and collaboration.calculate_bic.nil?
       status_tag("Activo", :ok) if collaboration.is_active?
       status_tag("Alertas", :warn) if collaboration.has_warnings?
       status_tag("Errores", :error) if collaboration.has_errors?
@@ -127,13 +115,11 @@ if Rails.application.secrets.features["collaborations"]
     h4 "Recibos"
     ul do
       li link_to 'Crear órdenes de este mes', params.merge(:action => :generate_orders), data: { confirm: "Este carga el sistema, por lo que debe ser lanzado lo menos posible, idealmente una vez al mes. ¿Deseas continuar?" }
-      #li link_to("Generar fichero para el banco", params.merge(:action => :generate_csv))
-      #if status[1]
-      #  active = status[0] ? " (en progreso)" : ""
-      #  li link_to("Descargar fichero para el banco#{active}", params.merge(:action => :download_csv))
-      #end
-      li link_to 'Generar fichero en formato SEPA (xml)', params.merge(:action => :generate_sepa_xml) 
-      li link_to 'Generar fichero en formato SEPA (xls)', params.merge(:action => :generate_sepa_xls)
+      li link_to("Generar fichero para el banco", params.merge(:action => :generate_csv))
+      if status[1]
+        active = status[0] ? " (en progreso)" : ""
+        li link_to("Descargar fichero para el banco#{active}", params.merge(:action => :download_csv))
+      end
       li do
         this_month = Order.banks.by_date(Date.today, Date.today).to_be_charged.count
         prev_month = Order.banks.by_date(Date.today-1.month, Date.today-1.month).to_be_charged.count
@@ -166,12 +152,6 @@ if Rails.application.secrets.features["collaborations"]
         #{link_to (Date.today-1.month).strftime("%b").downcase, params.merge(action: :download_for_town, date: Date.today-1.month) }
         """.html_safe
       end
-      li do
-        """Insular:
-        #{link_to Date.today.strftime("%b").downcase, params.merge(action: :download_for_island, date: Date.today) }
-        #{link_to (Date.today-1.month).strftime("%b").downcase, params.merge(action: :download_for_island, date: Date.today-1.month) }
-        """.html_safe
-      end
     end
   end
   
@@ -191,9 +171,6 @@ if Rails.application.secrets.features["collaborations"]
     end
   end
 
-  filter :user_first_name, as: :string
-  filter :user_last_name, as: :string
-  filter :iban_account, as: :string
   filter :user_document_vatid_or_non_user_document_vatid, as: :string
   filter :user_email_or_non_user_email, as: :string
   filter :status, :as => :select, :collection => Collaboration::STATUS.to_a
@@ -203,7 +180,6 @@ if Rails.application.secrets.features["collaborations"]
   filter :created_at
   filter :for_autonomy_cc
   filter :for_town_cc
-  filter :for_island_cc
 
   show do |collaboration|
     attributes_table do
@@ -239,13 +215,11 @@ if Rails.application.secrets.features["collaborations"]
       end
       row :territorial do
         status_tag("Cc autonómico") if collaboration.for_autonomy_cc
-        status_tag("Cc municipal") if collaboration.for_town_cc
-        status_tag("Cc insular") if collaboration.for_town_cc
+        status_tag("Cc municipal") if collaboration.for_autonomy_cc and collaboration.for_town_cc
       end
       row :info do
         status_tag("Cca", :ok) if collaboration.for_autonomy_cc
-        status_tag("Ccm", :ok) if collaboration.for_town_cc
-        status_tag("Cci", :ok) if collaboration.for_island_cc
+        status_tag("Ccm", :ok) if collaboration.for_autonomy_cc and collaboration.for_town_cc
         status_tag("Activo", :ok) if collaboration.is_active?
         status_tag("Alertas", :warn) if collaboration.has_warnings?
         status_tag("Errores", :error) if collaboration.has_errors?
@@ -310,71 +284,28 @@ if Rails.application.secrets.features["collaborations"]
       f.input :redsys_expiration
       f.input :for_autonomy_cc
       f.input :for_town_cc
-      f.input :for_island_cc
     end
     f.actions
   end
   
-  
   collection_action :charge, :method => :get do
     Collaboration.credit_cards.pluck(:id).each do |cid|
-      if use_resque
-        Resque.enqueue(PodemosCollaborationWorker, cid)
-      else
-        PodemosCollaborationWorker.perform cid
-      end
+      Resque.enqueue(PodemosCollaborationWorker, cid)
     end
     redirect_to :admin_collaborations
   end
 
-  collection_action :generate_orders, :method => :get do 
+  collection_action :generate_orders, :method => :get do
     Collaboration.banks.pluck(:id).each do |cid|
-      if use_resque
-        Resque.enqueue(PodemosCollaborationWorker, cid)
-      else
-        PodemosCollaborationWorker.perform cid
-      end
+      Resque.enqueue(PodemosCollaborationWorker, cid)
     end
-
     redirect_to :admin_collaborations
   end
 
   collection_action :generate_csv, :method => :get do
     Collaboration.bank_file_lock true
-    if use_resque
-      Resque.enqueue(PodemosCollaborationWorker, -1)
-    else
-      PodemosCollaborationWorker.perform -1
-    end
+    Resque.enqueue(PodemosCollaborationWorker, -1)
     redirect_to :admin_collaborations
-  end
-  
-  collection_action :generate_sepa, :method => :get do
-    # FIXME No me queda claro el motivo de este lock
-    #Collaboration.bank_file_lock true
-    Rails.logger.info "=================================\n generate_sepa\n=================================\n"
-    filename = "triodos_orders"
-    
-    respond_to do |format|
-        format.xml {
-          response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.xml"'
-          s = PodemosCollaborationSepaWorker.perform
-          render text: s
-        }
-        format.xls {
-          response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.xls"'
-          render "collaborations/generate_sepa.xls.erb"
-        }
-    end
-    #redirect_to :admin_collaborations, flash: { notice: 'Generado fichero xml para Triodos' }
-  end
-  
-  collection_action :generate_sepa_xls, :method => :get do
-    redirect_to "/admin/collaborations/generate_sepa.xls"
-  end
-  
-  collection_action :generate_sepa_xml, :method => :get do
-    redirect_to "/admin/collaborations/generate_sepa.xml"
   end
 
   collection_action :download_csv, :method => :get do
@@ -407,17 +338,25 @@ if Rails.application.secrets.features["collaborations"]
     items.each do |item|
       begin
         code = item.at_xpath("StsRsnInf/Rsn/Cd").text
-        order_id = item.at_xpath("OrgnlTxRef/MndtRltdInf/MndtId").text[4..-1].to_i
-        #date = item.at_xpath("OrgnlTxRef/MndtRltdInf/DtOfSgntr").text.to_date
-        iban = item.at_xpath("OrgnlTxRef/DbtrAcct/Id/IBAN").text.upcase
-        bic = item.at_xpath("OrgnlTxRef/DbtrAgt/FinInstnId/BIC").text.upcase
+        col_id = item.at_xpath("OrgnlTxRef/MndtRltdInf/MndtId").text.to_i
+        date = Date.parse item.at_xpath("OrgnlTxRef/MndtRltdInf/DtOfSgntr").text
+        iban = item.at_xpath("OrgnlTxRef/DbtrAcct/Id/IBAN").text
+        bic = item.at_xpath("OrgnlTxRef/DbtrAgt/FinInstnId/BIC").text
         fullname = item.at_xpath("OrgnlTxRef/Dbtr/Nm").text
-
-        order= Order.find(order_id)
-        if order
-          if order.payment_identifier.upcase == "#{iban}/#{bic}"
-            if order.is_paid?
-              if order.mark_as_returned! code
+        orders = nil
+        if date > Date.civil(2015,1,31)
+          col = Collaboration.with_deleted.joins(:order).find_by_id(col_id)
+        else
+          cols = Collaboration.with_deleted.joins(:user).eager_load(:order).where(iban_account: iban).select do |c|
+            I18n.transliterate(c.get_non_user.full_name).upcase == fullname
+          end
+          col = cols.first if cols.length == 1
+        end
+        if col
+          orders = col.get_orders(date, date)[0]
+          if orders[-1].payment_identifier == "#{iban}/#{bic}"
+            if orders[-1].is_paid?
+              if orders[-1].mark_as_returned! code
                 result = :ok
               else
                 result = :no_mark
@@ -431,8 +370,7 @@ if Rails.application.secrets.features["collaborations"]
         else
           result = :no_collaboration
         end
-
-          messages << { result: result, order: (order), ret_code: code, account: "#{iban}/#{bic}", fullname:                   fullname }
+        messages << { result: result, collaboration: (col or col_id), date: date, ret_code: code, orders: orders, account: "#{iban}/#{bic}", fullname: fullname }
       rescue
         messages << { result: :error, info: item, message: $!.message }
       end
@@ -445,7 +383,7 @@ if Rails.application.secrets.features["collaborations"]
     redirect_to admin_collaboration_path(id: resource.id)
   end
 
-  action_item(:charge_collaboration, only: :show) do
+  action_item only: :show do
     if resource.is_credit_card? 
       link_to 'Cobrar', charge_order_admin_collaboration_path(id: resource.id), data: { confirm: "Se enviarán los datos de la orden para que esta sea cobrada. ¿Deseas continuar?" }
     else
@@ -453,7 +391,7 @@ if Rails.application.secrets.features["collaborations"]
     end
   end
 
-  action_item(:restore_collaboration, only: :show) do
+  action_item :only => :show do
     link_to('Recuperar colaboración borrada', recover_admin_collaboration_path(collaboration), method: :post, data: { confirm: "¿Estas segura de querer recuperar esta colaboración?" }) if collaboration.deleted?
   end
 
@@ -528,16 +466,15 @@ if Rails.application.secrets.features["collaborations"]
     months = Hash[(0..3).map{|i| [(date-i.months).unique_month, (date-i.months).strftime("%b").downcase]}.reverse]
 
     autonomies = Hash[Podemos::GeoExtra::AUTONOMIES.values]
-    autonomies["~"] = "Sin asignación"
     autonomies_data = Hash.new {|h,k| h[k] = Hash.new 0 }
-    Order.paid.where(town_code:nil, island_code:nil).group(:autonomy_code, Order.unique_month("payable_at")).sum(:amount).each do |k,v|
-      autonomies_data[k[0]||"~"][k[1].to_i] = v
+    Order.paid.where.not(autonomy_code:nil).group(:autonomy_code, Order.unique_month("payable_at")).sum(:amount).each do |k,v|
+      autonomies_data[k[0]][k[1].to_i] = v
     end
 
     csv = CSV.generate(encoding: 'utf-8', col_sep: "\t") do |csv|
       csv << ["Comunidad Autónoma"] + months.values
-      autonomies.sort.each do |autonomy_code,autonomy|
-        csv << [autonomy] + months.keys.map{|month| autonomies_data[autonomy_code][month]/100}
+      autonomies_data.each do |k,v|
+        csv << [autonomies[k] ] + months.keys.map{|k| v[k]/100}
       end
     end
 
@@ -552,7 +489,7 @@ if Rails.application.secrets.features["collaborations"]
 
     provinces = Carmen::Country.coded("ES").subregions
     towns_data = Hash.new {|h,k| h[k] = Hash.new 0 }
-    Order.paid.where(island_code:nil).group(:town_code, Order.unique_month("payable_at")).sum(:amount).each do |k,v|
+    Order.paid.where.not(autonomy_code:nil).where.not(town_code:nil).group(:town_code, Order.unique_month("payable_at")).sum(:amount).each do |k,v|
       towns_data[k[0]][k[1].to_i] = v
     end
 
@@ -569,43 +506,5 @@ if Rails.application.secrets.features["collaborations"]
     send_data csv.encode('utf-8'),
       type: 'text/tsv; charset=utf-8; header=present',
       disposition: "attachment; filename=podemos.for_town_cc.#{Date.today.to_s}.csv"
-  end
-
-  collection_action :download_for_island, :method => :get do
-    date = Date.parse params[:date]
-    months = Hash[(0..3).map{|i| [(date-i.months).unique_month, (date-i.months).strftime("%b").downcase]}.reverse]
-
-    provinces = Carmen::Country.coded("ES").subregions
-    towns_data = Hash.new {|h,k| h[k] = Hash.new 0 }
-    Order.paid.where.not(island_code:nil).group(:town_code, Order.unique_month("payable_at")).sum(:amount).each do |k,v|
-      towns_data[k[0]][k[1].to_i] = v
-    end
-
-    csv = CSV.generate(encoding: 'utf-8', col_sep: "\t") do |csv|
-      csv << ["Comunidad Autónoma", "Provincia", "Municipio", "Isla"] + months.values
-      provinces.each_with_index do |province,i|
-        prov_code = "p_#{(i+1).to_s.rjust(2, "0")}"
-        province.subregions.each do |town|
-          if Podemos::GeoExtra::ISLANDS.member? town.code
-            csv << [ Podemos::GeoExtra::AUTONOMIES[prov_code][1], province.name, town.name, Podemos::GeoExtra::ISLANDS[town.code][1] ] + months.keys.map{|k| towns_data[town.code][k]/100}
-          end
-        end
-      end
-    end
-
-    send_data csv.encode('utf-8'),
-      type: 'text/tsv; charset=utf-8; header=present',
-      disposition: "attachment; filename=podemos.for_island_cc.#{Date.today.to_s}.csv"
-  end
-
-  batch_action :error_batch, if: proc{ params[:scope]=="suspects" } do |ids|
-    ok = true
-    Collaboration.transaction do
-      Collaboration.where(id:ids).each do |c|
-        ok &&= c.set_error! "Colaboración sospechosa marcada como errónea en masa"
-      end
-      redirect_to(collection_path, notice: "Las colaboraciones han sido marcadas como erróneas.") if ok
-    end
-    redirect_to(collection_path, warning: "Ha ocurrido un error y las colaboraciones no han sido marcadas como erróneas.") if !ok
   end
 end

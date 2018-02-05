@@ -5,17 +5,17 @@ feature "VerificationPresencial" do
   # FIXME: should initialize on bec
   # Rails.application.secrets.features["verification_presencial"] = true
   # Rails.application.secrets.organization["folder"] = "bec"
-  #
 
   scenario "user should verificate to access tools", js: true do
 
     # cant access as anon
+    page.driver.block_unknown_urls
     visit verification_step1_path
     assert_equal page.current_path, root_path(locale: :es)
 
     # initialize
-    user = FactoryBot.create(:user)
-    election = FactoryBot.create(:election)
+    user = FactoryGirl.create(:user)
+    election = FactoryGirl.create(:election)
 
     # should see the pending verification message if isn't verified
     login_as(user)
@@ -35,15 +35,16 @@ feature "VerificationPresencial" do
   scenario "user verifications_admin can verify", js: true do
 
     # should see the pending verification message if isn't verified
-    user2 = FactoryBot.create(:user)
+    user2 = FactoryGirl.create(:user)
     login_as(user2)
     visit root_path
-    #page.must_have_content I18n.t('verification.pending0_html')
+    page.driver.block_unknown_urls
+    page.must_have_content I18n.t('verification.pending0_html')
     logout(user2)
     Capybara.reset_sessions!
 
     # user1 can verify to user2
-    user1 = FactoryBot.create(:user)
+    user1 = FactoryGirl.create(:user)
     user1.verifications_admin = true
     user1.save
     login_as(user1)
@@ -63,8 +64,9 @@ feature "VerificationPresencial" do
     # should see the OK verification message
     login_as(user2)
     visit root_path
-    page.must_have_content I18n.t('voting.election_none')
+    page.must_have_content 'El lugar oficial de encuentro y debate de Podemos'
     logout(user2)
+
   end
 
 end

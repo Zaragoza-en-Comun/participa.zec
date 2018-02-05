@@ -7,11 +7,11 @@
 
 born_at_format = () ->
   if ( $('#select2-chosen-2').html() == ".col-xs-3" )
-    $('#select2-chosen-2').html('día')
+    $('#select2-chosen-2').html('dd')
   if ( $('#select2-chosen-3').html() == ".col-xs-5" )
-    $('#select2-chosen-3').html('mes')
+    $('#select2-chosen-3').html('mm')
   if ( $('#select2-chosen-4').html() == ".col-xs-4" )
-    $('#select2-chosen-4').html('año')
+    $('#select2-chosen-4').html('aaaa')
 
 init_zfixes = () ->
   born_at_format()

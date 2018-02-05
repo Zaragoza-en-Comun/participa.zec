@@ -3,7 +3,7 @@ require 'test_helper'
 class CollaborationTest < ActiveSupport::TestCase
 
   setup do
-    @collaboration = FactoryBot.create(:collaboration, :ccc)
+    @collaboration = FactoryGirl.create(:collaboration, :ccc)
   end
 
   test "should validations on collaborations work" do
@@ -28,13 +28,13 @@ class CollaborationTest < ActiveSupport::TestCase
   end
 
   test "should national and international scopes work" do
-    c1 = FactoryBot.create(:collaboration, :ccc)
-    c2 = FactoryBot.create(:collaboration, :iban)
+    c1 = FactoryGirl.create(:collaboration, :ccc)
+    c2 = FactoryGirl.create(:collaboration, :iban)
     c2.iban_account = "ES0690000001210123456789"
     c2.iban_bic = "ESPBESMMXXX"
     c2.save
 
-    c3 = FactoryBot.create(:collaboration, :iban)
+    c3 = FactoryGirl.create(:collaboration, :iban)
     c3.iban_account = "BE62510007547061"
     c3.iban_bic = "BEXXXXX"
     c3.save
@@ -61,13 +61,13 @@ class CollaborationTest < ActiveSupport::TestCase
   end
 
   test "should .validates_not_passport work" do
-    collaboration = FactoryBot.build(:collaboration, :foreign_user)
+    collaboration = FactoryGirl.build(:collaboration, :foreign_user)
     assert_not collaboration.valid?
     assert(collaboration.errors[:user].include? "No puedes colaborar si no dispones de DNI o NIE.")
   end
 
   test "should .validates_age_over work" do
-    user = FactoryBot.build(:user)
+    user = FactoryGirl.build(:user)
     user.update_attribute(:born_at, DateTime.now-10.years)
     @collaboration.user = user
     assert_not @collaboration.valid?
@@ -154,10 +154,8 @@ class CollaborationTest < ActiveSupport::TestCase
   end
 
   test "should .payment_type_name work" do
-    if Rails.application.secrets.features["collaborations_redsys"]
-      @collaboration.update_attribute(:payment_type, 1)
-      assert_equal( "Suscripción con Tarjeta de Crédito/Débito", @collaboration.payment_type_name )
-    end
+    @collaboration.update_attribute(:payment_type, 1)
+    assert_equal( "Suscripción con Tarjeta de Crédito/Débito", @collaboration.payment_type_name )
     @collaboration.update_attribute(:payment_type, 2)
     assert_equal( "Domiciliación en cuenta bancaria (formato CCC)", @collaboration.payment_type_name )
     @collaboration.update_attribute(:payment_type, 3)
@@ -199,9 +197,9 @@ class CollaborationTest < ActiveSupport::TestCase
   end
 
   test "should .calculate_bic work" do
-    ccc = FactoryBot.create(:collaboration, :ccc)
+    ccc = FactoryGirl.create(:collaboration, :ccc)
     assert_equal "ESPBESMMXXX", ccc.calculate_bic
-    iban = FactoryBot.create(:collaboration, :iban)
+    iban = FactoryGirl.create(:collaboration, :iban)
     assert_equal "ESPBESMMXXX", iban.calculate_bic
   end
 
@@ -259,7 +257,7 @@ class CollaborationTest < ActiveSupport::TestCase
   end
 
   test "should .check_spanish_bic work" do
-    ccc = FactoryBot.create(:collaboration, :ccc)
+    ccc = FactoryGirl.create(:collaboration, :ccc)
     assert_equal "ESPBESMMXXX", ccc.calculate_bic
   end
 
@@ -299,13 +297,13 @@ class CollaborationTest < ActiveSupport::TestCase
   end
 
   test "should .payment_identifier work" do
-    credit_card = FactoryBot.create(:collaboration, :credit_card)
+    credit_card = FactoryGirl.create(:collaboration, :credit_card)
     credit_card.update_attribute(:redsys_identifier, "XXXXXX")
     assert_equal credit_card.payment_identifier, "XXXXXX"
-    iban = FactoryBot.create(:collaboration, :iban)
+    iban = FactoryGirl.create(:collaboration, :iban)
     iban.update_attribute(:payment_type, 3)
     assert_equal iban.payment_identifier, "ES0690000001210123456789/ESPBESMMXXX"
-    ccc = FactoryBot.create(:collaboration, :ccc)
+    ccc = FactoryGirl.create(:collaboration, :ccc)
     assert_equal ccc.payment_identifier, "ES0690000001210123456789/ESPBESMMXXX"
   end
 
@@ -326,7 +324,7 @@ class CollaborationTest < ActiveSupport::TestCase
     @collaboration.payment_processed! order
     assert_equal 1, @collaboration.status
 
-    credit_card = FactoryBot.create(:collaboration, :credit_card)
+    credit_card = FactoryGirl.create(:collaboration, :credit_card)
     credit_card_order = credit_card.create_order Date.today
     credit_card_order.save
     credit_card.payment_processed! credit_card_order
@@ -414,7 +412,7 @@ class CollaborationTest < ActiveSupport::TestCase
   end
 
   test "should .charge! work" do
-    collaboration = FactoryBot.create(:collaboration, :credit_card)
+    collaboration = FactoryGirl.create(:collaboration, :credit_card)
     collaboration.update_attribute(:status, 2)
     order = collaboration.create_order Date.today
     order.save
@@ -433,28 +431,7 @@ class CollaborationTest < ActiveSupport::TestCase
     order = @collaboration.create_order Date.civil(2015,03,20)
     user = @collaboration.user
     order.save
-      date = Date.civil(2015,03,20)
-      id = "%02d%02d%06d" % [ date.year%100, date.month, order.id%1000000 ]
-      response = [id, 
-      	"PEREZ PEPITO", 
-      	user.document_vatid, 
-      	user.email, 
-      	"C/ INVENTADA, 123", 
-      	"MADRID", 
-      	"28021", 
-      	"ES", 
-      	"ES0690000001210123456789", 
-      	"90000001210123456789", 
-      	"ESPBESMMXXX", 
-      	10, 
-      	"RCUR", 
-      	"http://localhost/colabora", 
-      	@collaboration.id, 
-      	order.created_at.strftime("%d-%m-%Y"), 
-      	"Colaboración marzo 2015", 
-      	"10-03-2015", 
-      	"Mensual", 
-      	"PEREZ PEPITO"]
+      response = ["1503000001", "PEREZ PEPITO", user.document_vatid, user.email, "C/ INVENTADA, 123", "MADRID", "28021", "ES", "ES0690000001210123456789", "90000001210123456789", "ESPBESMMXXX", 10, "RCUR", "http://localhost/colabora", 1, order.created_at.strftime("%d-%m-%Y"), "Colaboración marzo 2015", "10-03-2015", "Mensual", "PEREZ PEPITO"]
     assert_equal( response, @collaboration.get_bank_data(Date.civil(2015,03,20)) )
   end
 
@@ -656,7 +633,7 @@ phone: '666666'"
   ##############################################
 
   test "should not save collaboration if userr is not over legal age (18 years old)" do
-    user = FactoryBot.build(:user)
+    user = FactoryGirl.build(:user)
     user.update_attribute(:born_at, DateTime.now-10.years)
     @collaboration.user = user
     assert_not @collaboration.valid?

@@ -36,7 +36,7 @@ ca:
       waiting_confirmation: "Actualment esperant instruccions per %{email}"
     titles:
       sign_in: "Inicia sessió"
-      sign_up: "Inscripció a Zaragoza En Común"
+      sign_up: "Inscripció a Zaragoza en Común"
       cancel_account: "Cancel·la el meu compte"
       forgot_password: "No recordes la teva contrasenya?"
       change_password: "Canvia la teva contrasenya"

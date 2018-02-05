@@ -1,3 +1,4 @@
+require 'zarago_zen_comun'
 class VerificationController < ApplicationController
 
   # TODO: checkbox TOS
@@ -7,7 +8,6 @@ class VerificationController < ApplicationController
   # GET /verificaciones
   def show
     authorize! :show, :verification
-    @centers = Verification::Center.where( id: 57 )
   end
 
   # GET /verificadores
@@ -67,6 +67,7 @@ class VerificationController < ApplicationController
   def confirm
     authorize! :confirm, :verification
     @user = User.find params[:id]
+    ZaragoZenComun.account_validate(@user.username)
     if @user.verify! current_user
       redirect_to verification_result_ok_path
     else

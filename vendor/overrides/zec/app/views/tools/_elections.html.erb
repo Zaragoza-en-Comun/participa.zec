@@ -6,7 +6,7 @@
       <%= t('voting.election_one') %>
     <%else%>
       <%= t('voting.election_mul_html') %>
-    <%end%> <%= t('voting.participate') %></strong></h3>
+    <%end%> <%= t('voting.participate') %></strong></h3><br/><br/>
     
     <% @elections.each do |election| %>
       <%= render partial: "election", locals: { election: election } %>
@@ -18,7 +18,8 @@
         <%= t('voting.election_use_mul') %>
       <%end%> 
         <%= t('voting.secure_system') %>
-      <a href="https://agoravoting.com" target="_blank"><b>Agora Voting</b></a>
+      <a href="https://agoravoting.com" target="_blank"><b>Agora Voting</b></a>. 
+        <%= t('voting.remember_last') %>
     </p>
   </div>
 </div>

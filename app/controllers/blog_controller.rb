@@ -2,28 +2,16 @@ class BlogController < ApplicationController
   before_action :get_categories
 
   def index
-    if current_user && current_user.is_admin?
-      @posts = Post.index.page(params[:page]).per(5)
-    else
-      @posts = Post.published.index.page(params[:page]).per(5)
-    end
+    @posts = Post.index.page(params[:page]).per(5)
   end
 
   def post
-    if current_user && current_user.is_admin?
-      @post = Post.find(params[:id])
-    else
-      @post = Post.published.find(params[:id])
-    end
+    @post = Post.find(params[:id])
   end
 
   def category
     @category = Category.find(params[:id])
-    if current_user && current_user.is_admin?
-      @posts = @category.posts.index.page(params[:page]).per(5)
-    else
-      @posts = @category.posts.published.index.page(params[:page]).per(5)
-    end
+    @posts = @category.posts.index.page(params[:page]).per(5)
   end
 
   def get_categories

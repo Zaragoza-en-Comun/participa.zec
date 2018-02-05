@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_files = true
+  config.serve_static_assets  = true
   config.static_cache_control = 'public, max-age=3600'
 
   # Show full error reports and disable caching.
@@ -36,13 +36,11 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  config.active_record.raise_in_transactional_callbacks = true
   
   # Disable paper_trail during tests
   PaperTrail.enabled = false
 
-  config.active_support.test_order = :sorted # or `:random` if you prefer
-
   config.i18n.default_locale = :es
-
 end
+
+require_override "config/environments/test.rb"

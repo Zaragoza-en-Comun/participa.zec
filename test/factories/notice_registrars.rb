@@ -1,6 +1,6 @@
-# Read about factories at https://github.com/thoughtbot/factory_bot
+# Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryBot.define do
+FactoryGirl.define do
   factory :notice_registrar do
     registration_id "MyString"
     status false

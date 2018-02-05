@@ -8,26 +8,25 @@ feature "Collaborations" do
     page.must_have_content "Necesitas iniciar sesión o registrarte para continuar."
 
     # logged in user (no collaboration)
-    user = FactoryBot.create(:user)
+    user = FactoryGirl.create(:user)
     login_as(user)
     visit new_collaboration_path
     page.must_have_content "Declaro ser mayor de 18 años."
 
     # logged in user (with unconfirmed collaboration)
-    collaboration = FactoryBot.create(:collaboration, user: user)
+    collaboration = FactoryGirl.create(:collaboration, user: user)
     visit new_collaboration_path
     page.must_have_content "Revisa y confirma todos los datos para activar la colaboración."
   end
 
   scenario "a user should be able to add and destroy a new collaboration" do
-    user = FactoryBot.create(:user)
+    user = FactoryGirl.create(:user)
     assert_equal 0, Collaboration.all.count 
 
     # logged in user, fill collaboration
     login_as(user)
     visit new_collaboration_path
-    #page.must_have_content "Colaborando con Podemos conseguirás que este proyecto siga creciendo mes a mes"
-    page.must_have_content "Apúntate a las donaciones periódiques de BComú"
+    page.must_have_content "Colaborando con Podemos conseguirás que este proyecto siga creciendo mes a mes"
     select('500', :from=>'Importe mensual') 
     select('Trimestral', :from=>'Frecuencia de pago') 
     select('Domiciliación en cuenta bancaria (formato IBAN)', :from=>'Método de pago') 
@@ -36,7 +35,7 @@ feature "Collaborations" do
     check('collaboration_terms_of_service')
     check('collaboration_minimal_year_old') 
 
-    click_button "Guardar"
+    click_button "Guardar Colaboración económica"
     page.must_have_content "6.000,00€"
     assert_equal 1, Collaboration.all.count 
 
@@ -55,13 +54,12 @@ feature "Collaborations" do
   end
 
   scenario "a user should be able to add and destroy a new collaboration with orders" do
-    user = FactoryBot.create(:user)
+    user = FactoryGirl.create(:user)
     assert_equal 0, Collaboration.all.count 
 
     login_as(user)
     visit new_collaboration_path
-    #page.must_have_content "Colaborando con Podemos conseguirás que este proyecto siga creciendo mes a mes"
-    page.must_have_content "Apúntate a las donaciones periódiques de BComú"
+    page.must_have_content "Colaborando con Podemos conseguirás que este proyecto siga creciendo mes a mes"
 
     select('500', :from=>'Importe mensual') 
     select('Trimestral', :from=>'Frecuencia de pago') 
@@ -71,7 +69,7 @@ feature "Collaborations" do
     check('collaboration_terms_of_service')
     check('collaboration_minimal_year_old') 
 
-    click_button "Guardar"
+    click_button "Guardar Colaboración económica"
     page.must_have_content "6.000,00€"
     assert_equal 1, Collaboration.all.count 
 

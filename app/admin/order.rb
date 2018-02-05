@@ -1,8 +1,13 @@
 ActiveAdmin.register Order do
+
   scope_to Order, association_method: :full_view
   config.sort_order = 'updated_at_desc'
 
-  menu :parent => "Colaboraciones"
+  if Rails.application.secrets.features["collaborations"]
+    menu :parent => "Colaboraciones"
+  else 
+    menu false
+  end
 
   permit_params :status, :reference, :amount, :first, :payment_type, :payment_identifier, :payment_response, :payable_at, :payed_at, :created_at
 
@@ -38,7 +43,7 @@ ActiveAdmin.register Order do
   scope :returned
   scope :deleted
 
-  index download_links: -> { current_user.is_admin? && current_user.finances_admin? } do
+  index do
     selectable_column
     id_column
     column :status_name
@@ -124,13 +129,13 @@ ActiveAdmin.register Order do
     redirect_to admin_order_path(id: resource.id)
   end
 
-  action_item(:return_order, only: :show) do
+  action_item only: :show do
     if resource.is_paid?
       link_to 'Orden devuelta', return_order_admin_order_path(id: resource.id), data: { confirm: "Esta orden no será contabilizada como cobrada. ¿Deseas continuar?" }
     end
   end
 
-  action_item(:restore_order, only: :show) do
+  action_item :only => :show do
     link_to('Recuperar orden borrada', recover_admin_order_path(order), method: :post, data: { confirm: "¿Estas segura de querer recuperar esta order?" }) if order.deleted?
   end
 

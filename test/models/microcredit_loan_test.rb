@@ -4,9 +4,9 @@ require 'test_helper'
 class MicrocreditLoanTest < ActiveSupport::TestCase
 
   setup do
-    @user1 = FactoryBot.create(:user)
-    @loan = FactoryBot.create(:microcredit_loan)
-    @microcredit = FactoryBot.create(:microcredit)
+    @user1 = FactoryGirl.create(:user)
+    @loan = FactoryGirl.create(:microcredit_loan)
+    @microcredit = FactoryGirl.create(:microcredit)
   end
 
   def create_loans( microcredit, number, data, update_counted=true )
@@ -32,15 +32,15 @@ class MicrocreditLoanTest < ActiveSupport::TestCase
   test "should counted scope work" do
     create_loans(@microcredit, 5, {user: @user1, amount: 1000})
     @microcredit = Microcredit.find @microcredit.id
-    assert_equal 0, @microcredit.loans.counted.count
+    assert_equal 5, @microcredit.loans.counted.count
 
     create_loans(@microcredit, 5, {user: @user1, amount: 1000, counted_at: DateTime.now})
     @microcredit = Microcredit.find @microcredit.id
-    assert_equal 5, @microcredit.loans.counted.count
+    assert_equal 10, @microcredit.loans.counted.count
 
     create_loans(@microcredit, 5, {user: @user1, amount: 100, counted_at: DateTime.now})
     @microcredit = Microcredit.find @microcredit.id
-    assert_equal 5, @microcredit.loans.counted.count
+    assert_equal 10, @microcredit.loans.counted.count
   end
 
   test "should confirmed scope work" do
@@ -65,7 +65,7 @@ class MicrocreditLoanTest < ActiveSupport::TestCase
   end
 
   test "should after_initialize user work" do
-    loan = FactoryBot.create(:microcredit_loan, user: @user1)
+    loan = FactoryGirl.create(:microcredit_loan, user: @user1)
     assert_equal loan.user, @user1
     #assert_equal loan.document_vatid, @user1.document_vatid
     # TODO: set_user_data on after_initialize
@@ -95,7 +95,7 @@ class MicrocreditLoanTest < ActiveSupport::TestCase
   test "should validates not passport on loans work" do
     @user1.document_type = 3
     @user1.save
-    microcredit_loan = FactoryBot.build(:microcredit_loan, user: @user1)
+    microcredit_loan = FactoryGirl.build(:microcredit_loan, user: @user1)
     assert_not microcredit_loan.valid?
     error = "No puedes suscribir un microcrédito si no dispones de DNI o NIE."
     assert_equal error, microcredit_loan.errors.messages[:user].first
@@ -104,7 +104,7 @@ class MicrocreditLoanTest < ActiveSupport::TestCase
   test "should validates age over on loans work" do
     @user1.born_at = DateTime.now-17.years
     @user1.save
-    microcredit_loan = FactoryBot.build(:microcredit_loan, user: @user1)
+    microcredit_loan = FactoryGirl.build(:microcredit_loan, user: @user1)
     assert_not microcredit_loan.valid?
     error = "No puedes suscribir un microcrédito si eres menor de edad."
     assert_equal error, microcredit_loan.errors.messages[:user].first
@@ -116,7 +116,9 @@ class MicrocreditLoanTest < ActiveSupport::TestCase
     create_loans(@microcredit, 5, {user: @user1, amount: 100, counted_at: DateTime.now, confirmed_at: DateTime.now})
     @microcredit = Microcredit.find @microcredit.id
     loan = MicrocreditLoan.create(microcredit: @microcredit, user: @user1, amount: 100, counted_at: DateTime.now, confirmed_at: DateTime.now)
-    assert loan.valid?
+    assert_not loan.valid?
+    error = "Lamentablemente, ya no quedan préstamos por esa cantidad."
+    assert_equal error, loan.errors.messages[:amount].first
   end
 
   test "should validates check user limits on microcredits loans work" do
@@ -147,7 +149,7 @@ class MicrocreditLoanTest < ActiveSupport::TestCase
     # - confirm an uncounted loan with the phase out of stock of the loan amount, that should not do anything else
 
     # Ending campaign
-    microcredit = FactoryBot.create(:microcredit)
+    microcredit = FactoryGirl.create(:microcredit)
     microcredit.starts_at = DateTime.now-3.month
     microcredit.ends_at = DateTime.now+10.minute
     microcredit.save

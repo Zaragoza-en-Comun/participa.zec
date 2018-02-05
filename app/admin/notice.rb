@@ -1,5 +1,10 @@
 ActiveAdmin.register Notice do
-  menu :parent => "Users"
+
+  if Rails.application.secrets.features["notifications"]
+    menu :parent => "Users"
+  else 
+    menu false
+  end
 
   permit_params :title, :body, :link, :created_at
 

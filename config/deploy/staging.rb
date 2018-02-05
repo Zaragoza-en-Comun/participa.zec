@@ -1,6 +1,29 @@
-server 'participa.zaragozaencomun.com', user: 'participa', port: 22, roles: %w(db web app)
+deploy_stag_server = 'beta.participa.zaragozaencomun.com'
+deploy_stag_to = '/var/www/beta.participa.zaragozaencomun.com'
 
-set :branch, ENV['BRANCH'] || :master
-set :deploy_to, '/home/participa/betaparticipa.zaragozaencomun.com'
+role [ :app, :db, :web ], [ deploy_stag_server ]
 
-after 'deploy:publishing', 'passenger:restart'
+set :branch, :staging
+set :deploy_to, deploy_stag_to
+
+after 'deploy:publishing', 'deploy:restart'
+namespace :deploy do
+  task :start do
+    on roles(:app) do
+      execute "/etc/init.d/unicorn_staging start"
+      #execute "sudo /etc/init.d/god start"
+    end
+  end
+  task :stop do
+    on roles(:app) do
+      execute "/etc/init.d/unicorn_staging stop"
+      #execute "sudo /etc/init.d/god stop"
+    end
+  end
+  task :restart do
+    on roles(:app) do
+      execute "/etc/init.d/unicorn_staging restart"
+      #execute "sudo /etc/init.d/god restart"
+    end
+  end
+end

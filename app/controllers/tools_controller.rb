@@ -3,7 +3,6 @@ class ToolsController < ApplicationController
   before_action :user_elections
 
   def index
-    @centers = Verification::Center.all
   end
 
   private

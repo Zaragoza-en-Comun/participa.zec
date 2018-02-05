@@ -15,8 +15,8 @@ es:
       ba:
         name: Badajoz
       b:
-        name: Zaragoza
-      bi:
+        name: Barcelona
+      bi: 
         name: Bizkaia
       bu:
         name: Burgos
@@ -98,9 +98,9 @@ es:
         name: Valencia
       va:
         name: Valladolid
-      za:
-        name: Zamora
       z:
+        name: Zamora
+      za:
         name: Zaragoza
       ce:
         name: Ceuta

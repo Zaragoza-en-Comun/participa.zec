@@ -134,27 +134,38 @@
       <% if resource.errors.include?(:email) %>
           <%= field_notice_box %>
       <% end %>
-      <%= f.input :email, as: :email, required: true, input_html: {required: true, class: 'input-m', autocomplete: :off} %>
+      <%= f.input :email, as: :email, required: true, input_html: {required: true, class: 'input-m'} %>
     </div>
     <div class="inputlabel-box">
       <% if resource.errors.include?(:email_confirmation) %>
           <%= field_notice_box %>
       <% end %>
-      <%= f.input :email_confirmation, as: :email, required: true, input_html: {required: true, class: 'input-m', autocomplete: :off} %>
+      <%= f.input :email_confirmation, as: :email, required: true, input_html: {required: true, class: 'input-m'} %>
     </div>
     <div class="inputlabel-box">
       <% if resource.errors.include?(:password) %>
           <%= field_notice_box %>
       <% end %>
-      <%= f.input :password, required: true, input_html: {required: true, class: 'input-m', autocomplete: :off} %>
+      <%= f.input :password, required: true, input_html: {required: true, class: 'input-m'} %>
     </div>
     <div class="inputlabel-box">
       <% if resource.errors.include?(:password_confirmation) %>
           <%= field_notice_box %>
       <% end %>
-      <%= f.input :password_confirmation, required: true, input_html: {required: true, class: 'input-m', autocomplete: :off} %>
+      <%= f.input :password_confirmation, required: true, input_html: {required: true, class: 'input-m'} %>
     </div>
     <% end %>
+    <!-- div class="inputlabel-box">
+      <% if resource.errors.include?(:wants_newsletter) %>
+          <%= field_notice_box %>
+      <% end %>
+      <div class="input-box">
+        <%= f.label :wants_newsletter %>
+        <%= f.check_box :wants_newsletter, checked: true, class: 'checkbox' %>
+        <p class="text-xl">Desmarca esta casilla si no quieres recibir nuestra newsletter. Sólo enviamos información importante</p>
+      </div>
+    </div -->
+
     <% if action == "new" %>
 
       </fieldset>
@@ -196,12 +207,9 @@
         </div>
 
         <div class="inputlabel-box">
-          <% if resource.errors.include?(:captcha) %>
-              <%= field_notice_box %>
-          <% end %>
           <%= f.label :captcha %>
           <div class="input-box">
-            <%= f.input :captcha, as: :simple_captcha, input_html: {class: "input-m"} %>
+            <%= recaptcha_tags %>
           </div>
         </div>
 
@@ -216,6 +224,7 @@
               <%= field_notice_box %>
           <% end %>
           <%= f.input :current_password, hint: raw(t("devise.hints.current_password", :link => link_to(t("devise.links.here"), "#recover-password", class: "js-change-tab"))), input_html: {required: true, class: 'input-m'} %>
+          <%= f.hidden_field :username %>
         </div>
         <%= f.actions class: 'enter' do %>
             <%= f.action :submit, label: t("devise.buttons.edit"), button_html: {class: "button"} %>

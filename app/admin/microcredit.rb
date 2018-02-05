@@ -1,4 +1,9 @@
 ActiveAdmin.register Microcredit do
+
+  unless Rails.application.secrets.features["microcredits"]
+    menu false
+  end
+
   config.sort_order = 'title_asc'
   
   scope :all
@@ -26,7 +31,7 @@ ActiveAdmin.register Microcredit do
     end
     column :percentages do |m|
       ([ "<strong>Confianza:&nbsp;#{(m.remaining_percent*100).round(2)}%</strong>" ] + m.limits.map do |amount, limit|
-        "#{number_to_euro amount*100, 0}:&nbsp;#{(m.current_percent(amount)*100).round(2)}%"
+        "#{number_to_euro amount*100, 0}:&nbsp;#{(m.current_percent(amount, 0)*100).round(2)}%"
       end).join("<br/>").html_safe
     end
     column :progress do |m|
@@ -53,8 +58,6 @@ ActiveAdmin.register Microcredit do
         f.input :subgoals
         f.input :account_number
         f.input :agreement_link
-        f.input :budget_link
-        f.input :renewal_terms, as: :file
         f.input :total_goal, step: 100
       else
         f.inputs "Importes de los microcréditos" do
@@ -78,10 +81,6 @@ ActiveAdmin.register Microcredit do
       row :ends_at
       row :account_number
       row :agreement_link
-      row :budget_link
-      row :renewal_terms do |microcredit|
-        link_to(microcredit.renewal_terms_file_name, microcredit.renewal_terms.url) if microcredit.renewal_terms.exists?
-      end
       row :total_goal
       row :limits do
         ([ "<strong>Total&nbsp;fase:&nbsp;#{number_to_euro(microcredit.phase_limit_amount*100, 0)}</strong>" ] + microcredit.limits.map do |amount, limit|
@@ -97,7 +96,7 @@ ActiveAdmin.register Microcredit do
       end
       row :percentages do
         ([ "<strong>Confianza:&nbsp;#{(microcredit.remaining_percent*100).round(2)}%</strong>" ] + microcredit.limits.map do |amount, limit|
-          "#{number_to_euro amount*100, 0}:&nbsp;#{(microcredit.current_percent(amount)*100).round(2)}%"
+          "#{number_to_euro amount*100, 0}:&nbsp;#{(microcredit.current_percent(amount, 0)*100).round(2)}%"
         end).join("<br/>").html_safe
       end
       row :progress do
@@ -156,11 +155,7 @@ ActiveAdmin.register Microcredit do
     end
   end
 
-  sidebar "Procesar movimientos del banco", 'data-panel' => :collapsed, :only => :show, priority: 1 do  
-    render("admin/process_bank_history")
-  end 
-
-  action_item(:change_phase, only: :show) do
+  action_item :only => :show do
     if resource.phase_remaining.sum(&:last)<=0
       link_to('Cambiar de fase', change_phase_admin_microcredit_path(resource), method: :post, data: { confirm: "¿Estas segura de que deseas cambiar de fase en esta campaña?" })
     end
@@ -191,50 +186,10 @@ ActiveAdmin.register Microcredit do
 
   permit_params do
     if can? :admin, Microcredit
-      [:title, :starts_at, :ends_at, :limits, :subgoals, :account_number, :total_goal, :contact_phone, :agreement_link, :budget_link, :renewal_terms]
+      [:title, :starts_at, :ends_at, :limits, :subgoals, :account_number, :total_goal, :contact_phone, :agreement_link]
     else
       [:contact_phone]
     end
   end
-
-  member_action :process_bank_history, :method => :post do
-    norma43 = Norma43.read(params["process_bank_history"]["file"].tempfile)
-
-    loans = { sure: [], doubts: [], empty: [], confirmed: [] }
-    norma43[:movements].each do |movement|
-      temp = []
-      sure = false
-      muser = I18n.transliterate(movement[:concept][0..37].strip.downcase)
-      mconcept = movement[:concept][38..-1]
-      id, mname = mconcept.split(/[ -]/, 2) if mconcept
-
-      if mconcept && mname && mname.downcase==resource.title.downcase && id.to_i>0
-        sure = true
-        temp = resource.loans.where(id: id.to_i)
-      end
-
-      if sure and temp.length==1 && temp.first.amount == movement[:amount] && (I18n.transliterate("#{temp.first.last_name} #{temp.first.first_name}".downcase[0..37].strip)==muser || I18n.transliterate("#{temp.first.first_name} #{temp.first.last_name}".downcase[0..37].strip)==muser)
-        if temp.first.confirmed_at.nil?
-          loans[:sure] << { loans: temp, movement: movement }
-        else
-          loans[:confirmed] << { loans: temp, movement: movement }
-        end
-        next
-      end
-
-      if mconcept
-        ids = mconcept.scan(/(\d{1,7})/).flatten
-        temp = resource.loans.where(id: ids.map(&:to_i))
-        if temp.length>0
-          loans[:doubts] << { loans: temp, movement: movement }
-          next
-        end
-      end
-
-      loans[:empty] << { movement: movement }
-    end
-
-    render "admin/process_bank_history_results", locals: { loans: loans }
-  end  
 
 end

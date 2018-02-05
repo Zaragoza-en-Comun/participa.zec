@@ -1,10 +1,6 @@
-def use_resque
-  return Rails.application.secrets.features["use_resque"]
-end
-
 ActiveAdmin.register Report do
   menu :parent => "Users"
-  permit_params  :title, :query, :main_group, :groups, :version_at
+  permit_params  :title, :query, :main_group, :groups
 
   index do
     selectable_column
@@ -22,8 +18,8 @@ ActiveAdmin.register Report do
 
       h3 "Ultima actualización: #{resource.updated_at}"
 
-      @main_group = resource.get_main_group
-      @groups = resource.get_groups
+      @main_group = YAML.load(resource.main_group) if resource.main_group
+      @groups = YAML.load(resource.groups)
       @results = YAML.load(resource.results)
 
       block = Proc.new do |main_group|
@@ -71,15 +67,11 @@ ActiveAdmin.register Report do
   end
 
   member_action :run do
-    if use_resque
-      Resque.enqueue(PodemosReportWorker, params[:id])
-    else
-      PodemosReportWorker.perform params[:id]
-    end
+    Resque.enqueue(PodemosReportWorker, params[:id])
     redirect_to :admin_reports
   end
 
-  action_item(:results, only: :show) do
+  action_item only: :show do
     if resource.results.nil?
       link_to 'Generar', run_admin_report_path(id: resource.id)
     else

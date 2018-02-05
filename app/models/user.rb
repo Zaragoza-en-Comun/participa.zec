@@ -1,19 +1,15 @@
 class User < ActiveRecord::Base
-  apply_simple_captcha
-
   include FlagShihTzu
 
   include Rails.application.routes.url_helpers
   require 'phone'
+  require 'zarago_zen_comun'
 
   has_flags 1 => :banned,
             2 => :superadmin,
             3 => :verified,
-            4 => :finances_admin,
-            5 => :verifications_admin,
-            6 => :impulsa_author,
-            7 => :impulsa_admin,
-            check_for_column: false
+            4 => :microcredits_admin,
+            5 => :verifications_admin
 
   # Include default devise modules. Others available are:
   # :omniauthable
@@ -22,6 +18,8 @@ class User < ActiveRecord::Base
 
   before_update :_clear_caches
   before_save :before_save
+  before_create :add_username
+  before_update :update_api
 
   acts_as_paranoid
   has_paper_trail
@@ -33,7 +31,6 @@ class User < ActiveRecord::Base
   has_many :microcredit_loans
   belongs_to :verified_by, class_name: "User", foreign_key: "verified_by_id" #, counter_cache: :verified_by_id
   has_many :verificated_users, class_name: "User", foreign_key: "verified_by_id"
-  has_and_belongs_to_many :groups
 
   validates :first_name, :last_name, :document_type, :document_vatid, presence: true
   validates :address, :postal_code, :town, :province, :country, :born_at, presence: true
@@ -45,8 +42,6 @@ class User < ActiveRecord::Base
   validates :document_vatid, valid_nif: true, if: :is_document_dni?
   validates :document_vatid, valid_nie: true, if: :is_document_nie?
   validates :born_at, date: true, allow_blank: true # gem date_validator
-  validates :born_at, inclusion: { in: Date.civil(1900, 1, 1)..Date.today-18.years,
-    message: "debes ser mayor de 18 años" }, allow_blank: true
   validates :phone, numericality: true, allow_blank: true
   validates :unconfirmed_phone, numericality: true, allow_blank: true
 
@@ -249,10 +244,6 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{self.first_name} #{self.last_name}"
-  end
-
-  def username
-    self.full_name.parameterize()
   end
 
   def full_address
@@ -630,9 +621,18 @@ class User < ActiveRecord::Base
       # Spanish users can't set a different town for vote, except when blocked
       if self.in_spain? and self.can_change_vote_location?
         self.vote_town = self.town
-        self.vote_district = nil if self.vote_town_changed? # remove this when the user is allowed to choose district
       end
     end
+  end
+  
+  def add_username
+    username = ZaragoZenComun.find_and_create_account(self.first_name, self.last_name, self.email, self.password)
+    self.username = username
+  end
+  
+  def update_api
+    name = "#{self.first_name} #{self.last_name}"
+    ZaragoZenComun.account_update(self.username, self.email, name, self.password)
   end
 
   def in_participation_team? team_id
@@ -702,41 +702,6 @@ class User < ActiveRecord::Base
       town
     end if not defined? @vote_town_cache
     @vote_town_cache
-  end
-
-  def can_request_sms_check?
-    DateTime.now > next_sms_check_request_at
-  end
-
-  def can_check_sms_check?
-    sms_check_at.present? && (DateTime.now < (sms_check_at + eval(Rails.application.secrets.users["sms_check_valid_interval"])))
-  end
-
-  def next_sms_check_request_at
-    if sms_check_at.present?
-      sms_check_at + eval(Rails.application.secrets.users["sms_check_request_interval"])
-    else
-      DateTime.now - 1.second
-    end
-  end
-
-  def send_sms_check!
-    require 'sms'
-    if can_request_sms_check?
-      self.update_attribute(:sms_check_at, DateTime.now)
-      SMS::Sender.send_message(self.phone, self.sms_check_token)
-      true
-    else
-      false
-    end
-  end
-
-  def valid_sms_check? value
-    sms_check_at and value.upcase == sms_check_token
-  end
-
-  def sms_check_token
-    Digest::SHA1.digest("#{sms_check_at}#{id}#{Rails.application.secrets.users['sms_secret_key'] }")[0..3].codepoints.map { |c| "%02X" % c }.join if sms_check_at
   end
 
   def is_verified?

@@ -8,8 +8,8 @@
   </div>
   <% if election.has_valid_location_for? current_user %>
     <% if election.info_url? %>
-      <%= link_to election.info_url, class: 'button button-info', target: '_blank' do %>
-        <span>+ info</span>
+      <%= link_to election.info_url, class: 'button button-vote' do %>
+        <span>Ver información</span>
       <% end %>
     <% end %>
     <%= link_to create_vote_path(election_id: election.id), class: 'button button-vote' do %>

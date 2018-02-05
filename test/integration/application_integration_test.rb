@@ -3,8 +3,8 @@ require 'test_helper'
 class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
 
   setup do
-    @user = FactoryBot.create(:user)
-    @user_foreign = FactoryBot.create(:user, :foreign_address)
+    @user = FactoryGirl.create(:user)
+    @user_foreign = FactoryGirl.create(:user, :foreign_address)
   end
 
   def login user
@@ -20,9 +20,8 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
   test "should set_locale" do
     get '/ca'
     assert_equal(:ca, I18n.locale)
-    # XXX pasca - error de I18n::InvalidLocale at /eu "eu" is not a valid locale
-    #get '/eu'
-    #assert_equal(:eu, I18n.locale)
+    get '/eu'
+    assert_equal(:eu, I18n.locale)
   end
 
   test "should success when login with a foreign user" do
@@ -44,17 +43,15 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  if Rails.application.secrets.features["verification_sms"]
-    test "should set_phone if non sms confirmed user, but allow access to profile" do
-      @user.update_attribute(:sms_confirmed_at, nil)
-      login @user
-      assert_equal("Por seguridad, debes confirmar tu teléfono.", flash[:alert])
-      get '/es'
-      assert_response :redirect
-      assert_redirected_to sms_validator_step1_path, "User without confirmed phone should be redirected to verify it"
-      get '/es/users/edit'
-      assert_response :success, "User without confirmed phone should be allowed to access the profile page"
-    end
+  test "should set_phone if non sms confirmed user, but allow access to profile" do
+    @user.update_attribute(:sms_confirmed_at, nil)
+    login @user
+    assert_equal("Por seguridad, debes confirmar tu teléfono.", flash[:alert])
+    get '/es'
+    assert_response :redirect
+    assert_redirected_to sms_validator_step1_path, "User without confirmed phone should be redirected to verify it"
+    get '/es/users/edit'
+    assert_response :success, "User without confirmed phone should be allowed to access the profile page"
   end
 
   test "should set_new_password, set_phone and check_born_at, but allow access to profile" do 

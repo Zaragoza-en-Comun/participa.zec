@@ -8,15 +8,12 @@ class Ability
     if user.is_admin?
       can :manage, :all
       can :manage, Notice
-      can :manage, Resque if Rails.application.secrets.features["use_resque"]
+      can :manage, Resque
       can :manage, Report
       can :manage, ActiveAdmin
       can :admin, User
       can :admin, Microcredit
       can :admin, MicrocreditLoan
-      can :admin, ImpulsaProject
-      can :admin, ImpulsaEdition
-
       can :manage, Post
 
       if !user.superadmin?
@@ -26,29 +23,26 @@ class Ability
         cannot :manage, SpamFilter
         can :read, Election
       end
+
     else
       cannot :manage, :all
-      cannot :manage, Resque if Rails.application.secrets.features["use_resque"]
+      cannot :manage, Resque
       cannot :manage, ActiveAdmin
 
-      can [:read], MicrocreditLoan if user.finances_admin?
-      can [:read, :update], Microcredit if user.finances_admin?
+      can [:read], MicrocreditLoan if user.microcredits_admin?
+      can [:read, :update], Microcredit if user.microcredits_admin?
 
-      can [:show, :read], ImpulsaEdition if user.impulsa_admin?
-      can [:show, :read, :update], ImpulsaProject if user.impulsa_admin?
-      
-      can [:read, :create], ActiveAdmin::Comment if user.finances_admin? || user.impulsa_admin?
-
-      can [:show, :update], User, id: user.id
-      can :show, Notice
-
-      if Rails.application.secrets.features["verification_presencial"]
+      if Rails.application.secrets.features["verification_presencial"] 
         can [:step1, :step2, :step3, :confirm, :search, :result_ok, :result_ko], :verification if user.verifications_admin?
         can [:create, :create_token, :check], :vote if user.is_verified?
         can :show, :verification
       else
         can [:create, :create_token, :check], :vote if user.sms_confirmed_at?
       end
+
+      can [:show, :update], User, id: user.id
+      can :show, Notice
+      can :read, Post.published
 
       cannot :admin, :all
     end

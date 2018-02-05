@@ -20,7 +20,7 @@ class PageControllerTest < ActionController::TestCase
   end
 
   test "should get all iframes as logged in user" do
-    user = FactoryBot.create :user
+    user = FactoryGirl.create :user
     sign_in user
     get :list_register
     assert_response :success

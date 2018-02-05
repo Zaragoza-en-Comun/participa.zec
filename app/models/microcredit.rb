@@ -5,19 +5,12 @@ class Microcredit < ActiveRecord::Base
   acts_as_paranoid
   has_many :loans, class_name: "MicrocreditLoan"
 
-  has_attached_file :renewal_terms
-
-  validates_attachment :renewal_terms, content_type: { content_type: ["application/pdf", "application/x-pdf"]}, size: { less_than: 2.megabyte }
-  
- 
   # example: "100€: 100\r500€: 22\r1000€: 10"
   validates :limits, format: { with: /\A(\D*\d+\D*\d+\D*)+\z/, message: "Introduce pares (monto, cantidad)"}
   validate :check_limits_with_phase
 
   scope :active, -> {where("? between starts_at and ends_at", DateTime.now)}
   scope :upcoming_finished, -> { where("ends_at > ? AND starts_at < ?", 7.days.ago, 1.day.from_now).order(:title)}
-  scope :non_finished, -> { where("ends_at > ?", DateTime.now) }
-  scope :renewables, -> { where.not( renewal_terms_file_name: nil ) }
 
   def is_active?
     ( self.starts_at .. self.ends_at ).cover? DateTime.now
@@ -25,10 +18,6 @@ class Microcredit < ActiveRecord::Base
 
   def is_upcoming?
     self.starts_at > DateTime.now and self.starts_at < 1.day.from_now
-  end
-
-  def has_finished?
-    self.ends_at < DateTime.now
   end
 
   def recently_finished?
@@ -79,16 +68,11 @@ class Microcredit < ActiveRecord::Base
     progress*time
   end
 
-  def current_percent amount
-    current = campaign_status.collect {|x| x[4] if x[0]==amount and not x[1] and (not x[3] or x[2])} .compact.sum
-    current_counted = campaign_status.collect {|x| x[4] if x[0]==amount and not x[1] and x[2]} .compact.sum
-    current==0 ? 0.0 : 1.0*current_counted/current
-  end
-
-  def next_percent amount
-    current = campaign_status.collect {|x| x[4] if x[0]==amount and not x[1] and (not x[3] or x[2])} .compact.sum
-    current_counted = campaign_status.collect {|x| x[4] if x[0]==amount and not x[1] and x[2]} .compact.sum
-    current==0 ? 1.0 : (current_counted+1.0)/(current)
+  def current_percent amount, add
+    remaining = self.remaining_percent
+    current = campaign_status.collect {|x| x[4]*(x[1] ? remaining*remaining : 1.0) if x[0]==amount and (not x[3] or x[2])} .compact.sum + add
+    current_counted = campaign_status.collect {|x| x[4]*(x[1] ? remaining*remaining : 1.0) if x[0]==amount and x[2]} .compact.sum
+    current == 0 ? 0 : (current_counted+add)/current
   end
 
   def has_amount_available? amount
@@ -104,7 +88,8 @@ class Microcredit < ActiveRecord::Base
     if confirmed
       return true
     else
-      next_percent(amount)<self.remaining_percent
+      percent = self.remaining_percent
+      (current_percent(amount, 1)-percent).abs<(current_percent(amount, 0)-percent).abs
     end
   end
 
@@ -208,9 +193,5 @@ class Microcredit < ActiveRecord::Base
 
   def subgoals
     @subgoals ||= YAML.load(self[:subgoals]) if self[:subgoals]
-  end
-
-  def renewable?
-    self.has_finished? && self.renewal_terms.exists?
   end
 end

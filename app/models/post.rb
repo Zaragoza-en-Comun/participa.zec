@@ -9,7 +9,6 @@ class Post < ActiveRecord::Base
 
   scope :index, -> { order(created_at: :desc)}
   scope :created, -> { where(deleted_at: nil) }
-  scope :drafts,  -> { where(status: 0) }
   scope :published,  -> { where(status: 1) }
   scope :deleted, -> { only_deleted }
 

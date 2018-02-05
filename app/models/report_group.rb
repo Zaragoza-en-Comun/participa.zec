@@ -1,10 +1,15 @@
 class ReportGroup < ActiveRecord::Base
-  def process row
-    begin
-      get_proc.call row
-    rescue
-      [[ "ERROR", "ERROR" ]]
+
+  after_initialize do |group|
+    if persisted?
+      @proc = eval("Proc.new { |row| #{group.proc} }")
+      @whitelist = whitelist.split("\r\n")
+      @blacklist = blacklist.split("\r\n")
     end
+  end
+
+  def process row
+    @proc.call row
   end
 
   def format_group_name name
@@ -23,53 +28,11 @@ class ReportGroup < ActiveRecord::Base
     @file.close
   end
 
-  def get_proc
-    @proc ||= eval("Proc.new { |row| #{self[:proc]} }")
-  end
-  def get_whitelist
-    @whitelist ||= self[:whitelist].split("\r\n")
-  end
-  def get_blacklist
-    @blacklist ||= self[:blacklist].split("\r\n")
-  end
-  
-  def proc= value
-    @proc = nil
-    self[:proc] = value
-  end
-
-  def whitelist= value
-    @whitelist = nil
-    self[:whitelist] = value
-  end
-
   def whitelist? value
-    get_whitelist.include? value
-  end
-
-  def blacklist= value
-    @blacklist = nil
-    self[:blacklist] = value
+    @whitelist.include? value
   end
   
   def blacklist? value
-    get_blacklist.include? value
-  end
-
-  def self.serialize data
-    if data.is_a? Array
-      data.map {|d| d.attributes.to_yaml } .to_yaml
-    else
-      data.attributes.to_yaml
-    end
-  end
-
-  def self.unserialize value
-    data = YAML.load(value)
-    if data.is_a? Array
-      data.map { |d| ReportGroup.new YAML.load(d) }
-    else
-      ReportGroup.new data
-    end
+    @blacklist.include? value
   end
 end

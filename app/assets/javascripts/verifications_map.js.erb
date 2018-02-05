@@ -1,39 +1,39 @@
 
 function get_coords(district) {
-  var district = district || 100; // no district, show barcelona
+  var district = district || 4; //100; // no district, show barcelona
   switch (district) {
-    case 0: // Sant Martí
-    //   return [ 41.408131, 2.205780 ];
-    //   break;
-    // case 1: // Ciutat Vella
-    //   return [ 41.380256, 2.183807 ];
-    //   break;
-    // case 2: // Eixample
-    //   return [ 41.393738, 2.166360 ];
-    //   break;
-    // case 3: // Sants-Montjuïc
-    //   return [ 41.349833, 2.152386 ];
-    //   break;
-    // case 4: // Les Corts
-    //   return [ 41.385368, 2.120537 ];
-    //   break;
-    // case 5: // Sarrià-Sant Gervasi
-    //   return [ 41.401936, 2.136704 ];
-    //   break;
-    // case 6: // Gràcia
-    //   return [ 41.402203, 2.160836 ];
-    //   break;
-    // case 7: // Horta-Guinardó
-    //   return [ 41.426791, 2.155601 ];
-    //   break;
-    // case 8: // Nou Barris
-    //   return [ 41.445452, 2.179409 ];
-    //   break;
-    // case 9: // Sant Andreu
-    //   return [ 41.433091, 2.194042 ];
-    //   break;
+    case 0: // Oliver-Valdefierro
+      return [41.652505, -0.929405];
+      break;
+    case 1: // Ciutat Vella
+      return [ 41.380256, 2.183807 ];
+      break;
+    case 2: // Eixample
+      return [ 41.393738, 2.166360 ];
+      break;
+    case 3: // Sants-Montjuïc
+      return [ 41.349833, 2.152386 ];
+      break; 
+    case 4: // Centro
+      return [ 41.658570, -0.883145 ];
+      break; 
+    case 5: // Sarrià-Sant Gervasi
+      return [ 41.401936, 2.136704 ];
+      break; 
+    case 6: // Gràcia
+      return [ 41.402203, 2.160836 ];
+      break; 
+    case 7: // Horta-Guinardó
+      return [ 41.426791, 2.155601 ];
+      break; 
+    case 8: // Nou Barris
+      return [ 41.445452, 2.179409 ];
+      break; 
+    case 9: // Sant Andreu
+      return [ 41.433091, 2.194042 ];
+      break; 
     default:
-      return [ 41.656374, -0.878832 ];
+      return [ 41.380256, 2.183807 ];
       break;
   }
 }
@@ -55,15 +55,10 @@ function verification_map_show(district) {
   });
 
   // map type
-  // should support HTTPS
-  // https://leaflet-extras.github.io/leaflet-providers/preview/
-  // the pretty ones aren't secure - they either don't support https or are private services :(
-  var map_tile_provider = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  var map_tile_attribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
-  L.tileLayer(map_tile_provider, {
+  L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
     maxZoom: 15,
     minZoom: 11,
-    attribution: map_tile_attribution
+    id: 'examples.map-i875mjb7'
   }).addTo(map);
 
   // legend
@@ -77,14 +72,14 @@ function verification_map_show(district) {
   }
   legend.addTo(map);
 
-  // all your markers are belong to us
+  // all your markers belong to us
   $('.js-verification-map-centers li:not(.strike)').each( function(){
     var latlng = $(this).data('location');
-    if ( latlng && latlng != ", " ) {
+    if ( latlng ) {
       var lat = parseFloat( latlng.split(',')[0] );
       var lng = parseFloat( latlng.split(',')[1] );
-      var name = $(this).find('h5').html();
-      var address = $(this).find('div').html();
+      var name = $(this).find('b').html();
+      var address = $(this).find('span').html();
       if ( $(this).hasClass('today') ) {
         var icon = IconOn;
       } else {
@@ -102,7 +97,7 @@ function verification_list_show(district){
 }
 
 function init_verification_map() {
-  var district = $('.js-verification-map-centers').data('user-district');
+  var district = $('.js-verification-map-centers').data('user-district'); 
   verification_map_show(district);
   verification_list_show(district);
 }

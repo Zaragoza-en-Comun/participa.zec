@@ -4,10 +4,11 @@ def create_resource_and_delete_itself klass, factory, final_count
   # Collaboration, :collaboration, 0
   scenario "a logged in user should delete itself after making a #{klass}", js: true do
     assert_equal 0, klass.all.count 
-    resource = FactoryBot.create(factory)
+    resource = FactoryGirl.create(factory)
     assert_equal 1, klass.all.count 
 
     login_as(resource.user)
+    page.driver.block_unknown_urls
     visit edit_user_registration_path
     click_link "Darme de baja" # change tab
     click_button "Darme de baja"
@@ -22,7 +23,7 @@ feature "CanUserDeleteItselfTest" do
 
   scenario "a logged in user should delete itself" do
     assert_equal 0, User.all.count 
-    user = FactoryBot.create(:user)
+    user = FactoryGirl.create(:user)
     assert_equal 1, User.all.count 
 
     login_as(user)
@@ -39,10 +40,11 @@ feature "CanUserDeleteItselfTest" do
 
   scenario "a logged in user should delete itself after making a support on a proposal", js: true do
     assert_equal 0, Support.all.count 
-    proposal = FactoryBot.create(:proposal)
-    user = FactoryBot.create(:user)
+    proposal = FactoryGirl.create(:proposal)
+    user = FactoryGirl.create(:user)
 
     login_as(user)
+    page.driver.block_unknown_urls
     visit proposals_path
     click_button "Apoyar propuesta"
     page.must_have_content "¡Muchas gracias!"

@@ -24,15 +24,13 @@
         element.className = classes.join(' ');
     }
 
-    if ( menuLink != null ) {
-        menuLink.onclick = function (e) {
-            var active = 'active';
+    menuLink.onclick = function (e) {
+        var active = 'active';
 
-            e.preventDefault();
-            toggleClass(layout, active);
-            toggleClass(menu, active);
-            toggleClass(menuLink, active);
-        };
+        e.preventDefault();
+        toggleClass(layout, active);
+        toggleClass(menu, active);
+        toggleClass(menuLink, active);
     };
 
 }(this, this.document));

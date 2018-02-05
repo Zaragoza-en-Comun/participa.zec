@@ -1,5 +1,10 @@
 ActiveAdmin.register Proposal do
-  menu :parent => "Participación"
+
+  if Rails.application.secrets.features["proposals"]
+    menu :parent => "Participación"
+  else
+    menu false
+  end
 
   controller do
     def scoped_collection

@@ -121,7 +121,7 @@ ActiveAdmin.setup do |config|
   # config.allow_comments = false
   #
   # You can disable the menu item for the comments index page:
-  #config.show_comments_in_menu = false
+  config.show_comments_in_menu = false
   #
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
@@ -162,15 +162,13 @@ ActiveAdmin.setup do |config|
   # and feel.
   #
   # To load a stylesheet:
-  #   config.register_stylesheet 'my_stylesheet.css'
+    config.register_stylesheet 'active_admin.css.scss'
   #
   # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():
   #   config.register_stylesheet 'my_print_stylesheet.css', :media => :print
   #
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
-  config.register_stylesheet 'admin/podemos.css'
-  config.register_javascript 'admin/podemos.js'
 
 
   # == CSV options
@@ -247,7 +245,7 @@ end
 ActiveAdmin::Views::SidebarSection.class_eval do
   def build(section)
     @section = section
-    super(@section.title)
+    super(@section.title, @section.options.merge(:icon => @section.icon))
     self.id = @section.id
     build_sidebar_content
   end

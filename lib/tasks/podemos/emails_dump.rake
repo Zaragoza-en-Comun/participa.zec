@@ -7,24 +7,23 @@ namespace :podemos do
     FileUtils.mkdir_p("tmp/sendy") unless File.directory?("tmp/sendy")
     CSV.open( "tmp/sendy/users.csv", 'w', { force_quotes: true } ) do |writer|
 
-      User.confirmed.find_each do |user|
-        row = [ user.full_name, user.email ]
-        town = user.vote_town
-        prov = user.vote_province_code
-        district = user.vote_district
-        if town
-          row << town
-          row << "#{town.sub("m","d")}_#{district}" if district
-        elsif prov
-          prov[0] = "m"
-          row << prov + "_"
-        else
-          row << "m_"
+      User.where.not(sms_confirmed_at: nil).where(country: "ES").pluck(:first_name, :last_name, :email, :province, :town).each do |user|
+        province = user[3]
+        town = user[4].downcase
+        if not town.starts_with? "m_"
+          prov = Carmen::Country.coded("ES").subregions.coded(province)
+          if prov
+            town = "m_%02d_"% (prov.index)
+          else
+            town = "m_"
+          end
         end
-
-        row << "e_" if user.country!="ES"
-        writer << row
+        writer << [ user[0] + " " + user[1], user[2], town]
       end
+      User.where.not(country: "ES", sms_confirmed_at: nil).pluck(:first_name, :last_name, :email).each do |user|
+        writer << [ user[0] + " " + user[1], user[2], "e_" ]
+      end
+
     end
 
   end

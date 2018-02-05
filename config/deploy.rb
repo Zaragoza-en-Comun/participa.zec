@@ -1,9 +1,6 @@
-lock '3.8.2'
+lock '3.2.1'
 
-set :application, 'participa.zaragozaencomun.com'
-set :repo_url, 'https://github.com/Zaragoza-en-comun/participa.zec'
-set :linked_files, %w{config/database.yml config/secrets.yml config/mailserver.yml}
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system db/podemos}
-
-set :user, 'participa'
-set :ssh_options, forward_agent: true
+set :application, 'participa'
+set :repo_url, "git@github.com:ZaragozaEnComun/participa.git"
+set :linked_files, %w{config/database.yml config/secrets.yml}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system db/podemos}

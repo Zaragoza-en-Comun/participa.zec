@@ -1,28 +1,29 @@
-role :app, %w{participa@participa.zaragozaencomun.com}
-role :web, %w{participa@participa.zaragozaencomun.com}
-role :db,  %w{participa@participa.zaragozaencomun.com}
+deploy_prod_server = 'participa.zaragozaencomun.com'
+deploy_prod_to = '/var/www/participa.zaragozaencomun.com'
 
-set :rvm_ruby_version, '2.3.3'
-set :branch, ENV['BRANCH'] || :master
-set :deploy_to, '/srv/rails/participa.zaragozaencomun.com'
+role [ :app, :db, :web ], [ deploy_prod_server ]
 
-after 'deploy:publishing', 'passenger:restart'
+set :branch, :production
+set :deploy_to, deploy_prod_to
 
-#after 'deploy:publishing', 'deploy:restart'
-#namespace :deploy do
-#  task :start do
-#    on roles(:app) do
-#      execute "/etc/init.d/unicorn_production start"
-#    end
-#  end
-#  task :stop do
-#    on roles(:app) do
-#      execute "/etc/init.d/unicorn_production stop"
-#    end
-#  end
-#  task :restart do
-#    on roles(:app) do
-#      execute "/etc/init.d/unicorn_production restart"
-#    end
-#  end
-#end
+after 'deploy:publishing', 'deploy:restart'
+namespace :deploy do
+  task :start do
+    on roles(:app) do
+      execute "/etc/init.d/unicorn_production start"
+      #execute "sudo /etc/init.d/god start"
+    end
+  end
+  task :stop do
+    on roles(:app) do
+      execute "/etc/init.d/unicorn_production stop"
+      #execute "sudo /etc/init.d/god stop"
+    end
+  end
+  task :restart do
+    on roles(:app) do
+      execute "/etc/init.d/unicorn_production restart"
+      #execute "sudo /etc/init.d/god restart"
+    end
+  end
+end

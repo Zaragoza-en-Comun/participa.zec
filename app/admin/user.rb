@@ -17,6 +17,7 @@ ActiveAdmin.register User do
   scope :has_collaboration_bank_national
   scope :has_collaboration_bank_international
   scope :participation_team
+  scope :has_circle
   scope :banned
   scope :admins
   if Rails.application.secrets.features["verification_presencial"]
@@ -28,30 +29,22 @@ ActiveAdmin.register User do
     scope :verified
   end
 
-  permit_params :email, :password, :password_confirmation, :first_name, :last_name, :document_type, :document_vatid, :born_at, :address, :town, :postal_code, :province, :country, :vote_province, :vote_town, :wants_newsletter, :district, :vote_district, :phone, :unconfirmed_phone, group_ids: []
+  permit_params :email, :password, :password_confirmation, :first_name, :last_name, :document_type, :document_vatid, :born_at, :address, :town, :postal_code, :province, :country, :vote_province, :vote_town, :wants_newsletter
 
   index do
     selectable_column
     id_column
     column :full_name
-    column "Lugar de participación" do |user|
-      "#{user.vote_town_name} (#{user.vote_province_name})"
-    end
     column :email
-    column :phone
-    column :ips do |user|
-      "#{user.current_sign_in_ip}<br/>#{user.last_sign_in_ip}".html_safe
-    end
     column :created_at
     column :verified_at
     #column :verificated_users_count
     column :verified_by
-
     column :validations do |user|
       status_tag("Verificado", :ok) + br if user.is_verified?
       status_tag("Baneado", :error) + br if user.banned?
       user.confirmed_at? ? status_tag("Email", :ok) : status_tag("Email", :error)
-      user.sms_confirmed_at? ? status_tag("Tel", :ok) : status_tag("Tel", :error)
+      user.sms_confirmed_at? ? status_tag("Tel", :ok) : ""
       user.valid? ? status_tag("Val", :ok) : status_tag("Val", :error)
       user.deleted? ? status_tag("Borrado", :error) : ""
     end
@@ -60,13 +53,6 @@ ActiveAdmin.register User do
 
   show do
     authorize! :admin, user
-    panel "Grups" do
-    attributes_table do
-        row :groups do
-          user.groups.map { |g| link_to g.name, admin_group_path(g)}.join(' ,').html_safe
-        end
-      end
-    end
     attributes_table do
       row :id
       row :status do
@@ -120,7 +106,6 @@ ActiveAdmin.register User do
       row :full_name
       row :first_name
       row :last_name
-      row :district_name
       row :document_type do
         user.document_type_name
       end
@@ -150,9 +135,9 @@ ActiveAdmin.register User do
           status_tag("NO", :error)
         end
       end
+
       row :vote_place do
-        district = user.vote_district ? " / distrito #{user.vote_district}" : ""
-        "#{user.vote_autonomy_name} / #{user.vote_province_name} / #{user.vote_town_name}#{district}"
+        user.vote_autonomy_name + " / " + user.vote_province_name + " / " + user.vote_town_name
       end
       row :vote_in_spanish_island? do
         if user.vote_in_spanish_island?
@@ -161,7 +146,9 @@ ActiveAdmin.register User do
           status_tag("NO", :error)
         end
       end
+
       row :admin
+      row :circle
       row :created_at
       row :updated_at
       row :confirmation_sent_at
@@ -178,7 +165,7 @@ ActiveAdmin.register User do
       row :confirmation_sms_sent_at
       row :sms_confirmed_at
       #row :sms_confirmation do
-      #  link_to "Ver en Esendex (proveedor SMS)", "https://www.esendex.com/echo/a/EX0145806/Sent/Messages?FilterRecipientValue="
+      #  link_to "Ver en Esendex (proveedor SMS)", "https://www.esendex.com/echo/a//Sent/Messages?FilterRecipientValue="
       #end
       row :failed_attempts
       row :locked_at
@@ -226,38 +213,23 @@ ActiveAdmin.register User do
 
   filter :email
   filter :document_vatid
-  filter :document_vatid_in, as: :string, label: "Lista de DNI o NIE"
-  filter :id_in, as: :string, label: "Lista de IDs"
-  filter :email_in, as: :string, label: "Lista de emails"
-  filter :admin
   filter :first_name
   filter :last_name
-  filter :district, as: :select, collection: User::DISTRICT
   filter :phone
   filter :created_at
   filter :born_at
+  filter :created_at
   filter :address
-  filter :town
   filter :postal_code
-  filter :province
-  filter :country
-  filter :vote_autonomy_in, as: :select, collection: Podemos::GeoExtra::AUTONOMIES.values.uniq.map(&:reverse), label: "Vote autonomy"
-  filter :vote_province_in, as: :select, collection: Carmen::Country.coded("ES").subregions.map{|x|[x.name, "p_#{(x.index+1).to_s.rjust(2,"0")}"]}, label: "Vote province"
-  filter :vote_island_in, as: :select, collection: Podemos::GeoExtra::ISLANDS.values.uniq.map(&:reverse), label: "Vote island"
-  filter :vote_town
   filter :current_sign_in_ip
   filter :last_sign_in_at
   filter :last_sign_in_ip
-  filter :has_legacy_password
-  filter :created_at
   filter :confirmed_at
   filter :verified_at
   filter :sms_confirmed_at
   filter :sign_in_count
-  filter :wants_participation
-  filter :participation_team_id, as: :select, collection: ParticipationTeam.all
   filter :votes_election_id, as: :select, collection: Election.all
-  if defined? User.verifications_admin
+  if defined? User.verifications_admin 
     filter :verified_by_id, as: :select, collection: User.verifications_admin.all
   end
 
@@ -268,15 +240,37 @@ ActiveAdmin.register User do
     column("Nombre") { |u| u.full_name }
     column :email
     column :document_vatid
-    column :district_name
+    column :country_name
+    column :province_name
+    column :town_name
     column :address
     column :postal_code
+    column :country
+    column :province
+    column :town
+    column :vote_town_name
+    column :vote_town
     column :phone
     column :current_sign_in_ip
     column :last_sign_in_ip
+    column :circle
   end
 
-  action_item(:verify, only: :show) do
+  action_item :only => :show do
+    link_to('Recuperar usuario borrado', recover_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de querer recuperar este usuario?" }) if user.deleted?
+  end
+
+  action_item :only => :show do   
+    if can? :ban, User
+      if user.banned?
+        link_to('Desbanear usuario', ban_admin_user_path(user), method: :delete) 
+      else
+        link_to('Banear usuario', ban_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de querer banear a este usuario?" }) 
+      end
+    end
+  end
+
+  action_item :only => :show do
     unless user.is_verified?
       msg = "¿Estas segura de querer verificar a este usuario?"
       if Rails.application.secrets.features["verification_presencial"]
@@ -287,7 +281,7 @@ ActiveAdmin.register User do
   end
 
   if Rails.application.secrets.features["verification_presencial"]
-    action_item(:verification_item, only: :show) do
+    action_item :only => :show do
       if user.verifications_admin?
         link_to('Quitar de Equipo de Verificación', verification_unteam_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de querer que este usuario ya no verifique a otros?" })
       else
@@ -295,26 +289,6 @@ ActiveAdmin.register User do
       end
     end
   end
-
-  action_item(:restore, only: :show) do
-    link_to('Recuperar usuario borrado', recover_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de querer recuperar este usuario?" }) if user.deleted?
-  end
-
-  action_item(:ban, only: :show) do
-    if can? :ban, User
-      if user.banned?
-        link_to('Desbanear usuario', ban_admin_user_path(user), method: :delete) 
-      else
-        link_to('Banear usuario', ban_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de querer banear a este usuario?" }) 
-      end
-    end
-  end
-
-  #action_item(:verify, only: :show) do
-  #  if user.not_verified?
-  #    link_to('Verificar usuario', verify_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de querer verificar a este usuario?" })
-  #  end
-  #end
 
   batch_action :ban, if: proc{ can? :ban, User } do |ids|
     User.ban_users(ids, true)
@@ -361,22 +335,6 @@ ActiveAdmin.register User do
     end
   end
 
-  action_item(:impulsa_author, only: :show) do
-    if user.impulsa_author?
-      link_to('Quitar autor Impulsa', impulsa_author_admin_user_path(user), method: :delete, data: { confirm: "¿Estas segura de que este usuario ya no puede crear proyectos especiales en Impulsa?" })
-    else
-      link_to('Autor Impulsa', impulsa_author_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de que este usuario puede crear proyectos especiales en Impulsa?" })
-    end
-  end
-
-  member_action :impulsa_author, :method => [:post, :delete] do
-    u = User.find( params[:id] )
-    u.impulsa_author = request.post?
-    u.save
-    flash[:notice] = "El usuario ya #{"no" if request.delete?} puede crear proyectos especiales en Impulsa"
-    redirect_to action: :show
-  end
-
   member_action :recover, :method => :post do
     user = User.with_deleted.find(params[:id])
     user.restore
@@ -402,9 +360,11 @@ ActiveAdmin.register User do
     end
   end
 
+  sidebar :versionate, :partial => "admin/version", :only => :show
+
   sidebar "Usuario verificados", only: :show do
     user = User.find( params[:id] )
-    table_for user.verificated_users.each do
+    table_for user.verificated_users.each do 
       column "Usuarios verificados: #{user.verificated_users.count}" do |u|
         span link_to(u.full_name, admin_user_path(u))
         br
@@ -412,8 +372,6 @@ ActiveAdmin.register User do
       end
     end
   end
-
-  sidebar :versionate, :partial => "admin/version", :only => :show
 
   sidebar "Control de IPs", only: :show do
     ips = [user.last_sign_in_ip, user.current_sign_in_ip]
@@ -431,42 +389,12 @@ ActiveAdmin.register User do
     end
   end
 
-  sidebar "CRUZAR DATOS", 'data-panel' => :collapsed, :only => :index, priority: 100 do  
-    render("admin/fill_csv_form")
-  end
-
-  collection_action :fill_csv, :method => :post do
-    require 'podemos_export'
-    file = params["fill_csv"]["file"]
-    subaction = params["commit"]
-#    csv = fill_data file.read, User.confirmed
-    csv = fill_data file.read.force_encoding('utf-8'), User
-    if subaction == "Descargar CSV"
-      send_data csv["results"],
-        type: 'text/csv; charset=utf-8; header=present',
-        disposition: "attachment; filename=participa.podemos.#{Date.today.to_s}.csv"
-    else
-      flash[:notice] = "Usuarios procesados: #{csv['processed'].join(',')}. Total: #{csv['processed'].count}"
-      redirect_to action: :index, "[q][id_in]": "#{csv['processed'].join(' ')}"
-    end
-  end
-
   controller do
     def show
       @user = User.with_deleted.find(params[:id])
       @versions = @user.versions
       @user = @user.versions[params[:version].to_i].reify if params[:version]
       show! #it seems to need this
-    end
-
-    before_filter :multi_values_filter, :only => :index
-    private
-
-    def multi_values_filter
-      #params[:q][:document_vatid_cont_any] = params[:q][:document_vatid_cont_any].split unless params[:q].nil? or params[:q][:document_vatid_cont_any].nil?
-      params[:q][:id_in] = params[:q][:id_in].split unless params[:q].nil? or params[:q][:id_in].nil?
-      params[:q][:document_vatid_in] = params[:q][:document_vatid_in].split unless params[:q].nil? or params[:q][:document_vatid_in].nil?
-      params[:q][:email_in] = params[:q][:email_in].split unless params[:q].nil? or params[:q][:email_in].nil?
     end
   end
 
@@ -491,9 +419,9 @@ ActiveAdmin.register User do
     end
 
     csv = CSV.generate(encoding: 'utf-8', col_sep: "\t") do |csv|
-      csv << ["ID", "Código de identificacion", "Nombre", "País", "Comunidad Autónoma", "Municipio", "Código postal", "Teléfono", "Email", "Equipos"]
+      csv << ["ID", "Código de identificacion", "Nombre", "País", "Comunidad Autónoma", "Municipio", "Código postal", "Teléfono", "Círculo", "Email", "Equipos"]
       User.participation_team.where("participation_team_at>?", date).each do |user| 
-        csv << [ user.id, "#{user.postal_code}#{user.phone}", user.first_name, user.country_name, user.autonomy_name, user.town_name, user.postal_code, user.phone, user.email, user.participation_team.map { |team| team.name }.join(",") ]
+        csv << [ user.id, "#{user.postal_code}#{user.phone}", user.first_name, user.country_name, user.autonomy_name, user.town_name, user.postal_code, user.phone, user.circle, user.email, user.participation_team.map { |team| team.name }.join(",") ]
       end
     end
 
@@ -528,10 +456,6 @@ ActiveAdmin.register User do
           end
         end
       end
-      div class: :filter_form_field do
-        label "Fecha de versión (lento)"
-        input name: :version_at
-      end
       div class: :buttons do
         input :type => :submit, value: "Crear informe"
       end
@@ -542,7 +466,6 @@ ActiveAdmin.register User do
     Report.create do |r|
       r.title = params[:title]
       r.query = params[:query]
-      #r.version_at = params[:version_at]
       r.main_group = ReportGroup.find(params[:main_group].to_i).to_yaml if params[:main_group].to_i>0
       r.groups = ReportGroup.where(id: params[:groups].map {|g| g.to_i} ).to_yaml
     end
