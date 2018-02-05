@@ -41,8 +41,16 @@ class ZaragoZenComun
   #		result: guid
   def self.account_create(username, email, name, password)
     method = 'account.create'
-    url = "#{ base_path }&method=#{method}&username=#{username}&email=#{email}&name=#{name}&password=#{password}&validate=true"
-    res = HTTParty.post(url)
+    url = "#{ base_path }&method=#{method}"
+    res = HTTParty.post(url,
+      :query => { :username => "#{username}",
+                :email    => "#{email}",
+                :name    => "#{name}",
+                :password    => "#{password}",
+                :validate    => "false"
+                }
+      )
+
 
     if res['status'] == 0
       res["result"]
