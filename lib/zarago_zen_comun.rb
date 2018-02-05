@@ -2,11 +2,11 @@ require 'httparty'
 
 class ZaragoZenComun
   include HTTParty
-  API_KEY = ''
+
 
 
   def self.base_path
-    "https://intranet.zaragozaencomun.com/services/api/rest/json/?api_key=#{API_KEY}"
+    "https://intranet.zaragozaencomun.com/services/api/rest/json/?api_key=#{Rails.application.secrets.intranet["api_key"]}"
   end
 
   def self.account_info(username)
