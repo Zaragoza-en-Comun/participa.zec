@@ -11,9 +11,10 @@ class ZaragoZenComun
 
   def self.account_info(username)
     method = 'account.info'
-    url = "#{ base_path }&method=#{method}&username=#{username}"
+    url = "#{ base_path }&method=#{method}"
+    res = HTTParty.post(url,
+        :body => { :username => "#{username}" })
 
-    res = HTTParty.post(url)
     if res['status'] == 0
       res["result"] if res["result"]["validated"]
     end
@@ -21,8 +22,10 @@ class ZaragoZenComun
 
   def self.account_infobymail(email)
     method = 'account.infobymail'
-    url = "#{ base_path }&method=#{method}&email=#{email}"
-    res = HTTParty.post(url)
+    url = "#{ base_path }&method=#{method}"
+    res = HTTParty.post(url,
+        :body => { :email => "#{email}" })
+
     if res['status'] == 0
       res["result"]
     else
@@ -43,14 +46,21 @@ class ZaragoZenComun
     method = 'account.create'
     url = "#{ base_path }&method=#{method}"
     res = HTTParty.post(url,
-      :query => { :username => "#{username}",
-                :email    => "#{email}",
-                :name    => "#{name}",
-                :password    => "#{password}",
-                :validate    => "false"
-                }
-      )
+        :body => { :username => "#{username}",
+                    :email => "#{email}",
+                    :name => "#{name}",
+                    :password => "#{password}",
+                    :validate => false
+                    }
+          )
 
+    if res['status'] == 0
+      method = 'account.ban'
+      url = "#{ base_path }&method=#{method}"
+      banres = HTTParty.post(url,
+      :body => { :username => "#{username}"}
+        )
+    end
 
     if res['status'] == 0
       res["result"]
@@ -70,9 +80,25 @@ class ZaragoZenComun
 #      result: boolean (true)
   def self.account_update(username, email, name, password=nil)
     method = 'account.update'
-    url = "#{ base_path }&method=#{method}&username=#{username}&email=#{email}&name=#{name}"
-    url += "&password=#{password}" unless password.nil?
-    res = HTTParty.post(url)
+    url = "#{ base_path }&method=#{method}"
+    if password.nil?
+      res = HTTParty.post(url,
+          :body => { :username => "#{username}",
+                      :email => "#{email}",
+                      :name => "#{name}",
+                      :validate => false
+                      }
+            )
+    else
+      res = HTTParty.post(url,
+          :body => { :username => "#{username}",
+                      :email => "#{email}",
+                      :name => "#{name}",
+                      :password => "#{password}",
+                      :validate => false
+                      }
+            )
+    end
 
   end
 
@@ -88,17 +114,19 @@ class ZaragoZenComun
 
   def self.account_validate(username)
     method = 'account.validate'
-    url = "#{ base_path }&method=#{method}&username=#{username}"
-
-    res = HTTParty.post(url)
+    url = "#{ base_path }&method=#{method}"
+    res = HTTParty.post(url,
+        :body => { :username => "#{username}" }
+          )
 
   end
 
   def self.account_delete(username)
     method = 'account.delete'
-    url = "#{ base_path }&method=#{method}&username=#{username}"
-
-    res = HTTParty.post(url)
+    url = "#{ base_path }&method=#{method}"
+    res = HTTParty.post(url,
+        :body => { :username => "#{username}" }
+          )
   end
 
   def self.find_and_create_account(first_name, last_name, email, password)
