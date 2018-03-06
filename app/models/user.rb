@@ -255,9 +255,9 @@ class User < ActiveRecord::Base
     "#{self.first_name} #{self.last_name}"
   end
 
-  def username
-    self.username
-  end
+#  def username
+#    self.username
+#  end
 
   def full_address
     "#{self.address}, #{self.town_name}, #{self.province_name}, CP #{self.postal_code}, #{self.country_name}"
