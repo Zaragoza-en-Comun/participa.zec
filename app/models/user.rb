@@ -256,7 +256,7 @@ class User < ActiveRecord::Base
   end
 
   def username
-    self.full_name.parameterize()
+    self.username
   end
 
   def full_address
