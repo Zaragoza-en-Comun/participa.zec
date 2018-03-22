@@ -847,3 +847,8 @@ Al confirmar este formulario aceptáis que:
         first: Cuánto y cómo quieres colaborar
         second: Confirmación
         third:  Resultado
+  zec:
+    devise:
+      registrations:
+        legal_advise: 'En cumplimiento de lo dispuesto en el artículo 5 de la Ley Orgánica 15/1999, de 13 de Diciembre, de Protección de Datos de Carácter Personal, le informamos de la existencia de un fichero de datos de carácter personal cuyo titular y responsable es GRUPO MUNCIPAL ZARAGOZA EN COMÚN. La recogida y tratamiento de sus datos tiene como finalidad gestionar las relaciones jurídicas o contractuales que le vinculen con el mismo así como enviarle información de nuestros servicios.
+                      Usted podrá en todo momento ejercitar sus derechos de acceso, rectificación, cancelación y oposición al tratamiento de datos personales, en la forma legalmente prevista, mediante comunicación firmada y remitida a: GRUPO MUNCIPAL ZARAGOZA EN COMÚN, PZA. DEL PORTILLO 3, 50004 ZARAGOZA'

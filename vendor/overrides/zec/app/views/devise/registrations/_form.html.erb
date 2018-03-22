@@ -252,6 +252,7 @@
         <% end %>
     <% end %> <%# if action == "new" %>
 
+
     <% if action == "edit" %>
         <div class="inputlabel-box">
           <% if resource.errors.include?(:current_password) %>
@@ -264,4 +265,7 @@
         <% end %>
     <% end %><%# if action == "edit" %>
   </fieldset>
+  <div>
+  <%= t('zec.devise.registrations.legal_advise') %>
+  </div>
 <% end %>
