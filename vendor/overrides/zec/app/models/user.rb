@@ -7,6 +7,9 @@ class User
 
   validates :district, presence: true
   validates :inscription, acceptance: true
+	validates :mobile, numericality: true, presence: true, allow_blank: true
+
+
 
 	DISTRICT = [["Alfocea", 16], ["Actur-Rey Fernando", 1], ["Barrios del Sur", 30], ["Casablanca", 2], ["Casco Histórico", 3], ["Casetas", 17], ["Centro", 4], ["Delicias", 5], ["El Rabal", 6], ["Garrapinillos", 18], ["Juslibol", 19], ["La Almozara", 7], ["La Cartuja Baja", 20], ["Las Fuentes", 8], ["Miralbueno", 9], ["Montañana", 21], ["Monzalbarba", 22], ["Movera", 23], ["Oliver-Valdefierro", 0], ["Peñaflor", 24], ["San Gregorio", 25], ["San José", 11], ["San Juan de Mozarrifar", 26], ["Santa Isabel", 12], ["Torrecilla del Valmadrid", 27], ["Torrero", 13], ["Universidad", 14], ["Venta del Olivar", 28], ["Villarrapa", 29]]
 

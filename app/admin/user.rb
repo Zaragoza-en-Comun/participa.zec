@@ -19,6 +19,7 @@ ActiveAdmin.register User do
   scope :participation_team
   scope :banned
   scope :admins
+
   if Rails.application.secrets.features["verification_presencial"]
     scope :verifications_admin
     scope :verified_presencial
@@ -28,17 +29,18 @@ ActiveAdmin.register User do
     scope :verified
   end
 
-  permit_params :email, :password, :password_confirmation, :first_name, :last_name, :document_type, :document_vatid, :born_at, :address, :town, :postal_code, :province, :country, :vote_province, :vote_town, :wants_newsletter, :district, :vote_district, :phone, :unconfirmed_phone, group_ids: []
+  permit_params :email, :password, :password_confirmation, :first_name, :last_name, :document_type, :document_vatid, :born_at, :address, :town, :postal_code, :mobile, :province, :country, :vote_province, :vote_town, :wants_newsletter, :district, :vote_district, :phone, :unconfirmed_phone, group_ids: []
 
   index do
     selectable_column
     id_column
     column :full_name
-    column "Lugar de participación" do |user|
-      "#{user.vote_town_name} (#{user.vote_province_name})"
+    column "Código de Distrito" do |user|
+      "#{user.district}"
     end
     column :email
-    column :phone
+    column :mobile
+#    column :phone
     column :ips do |user|
       "#{user.current_sign_in_ip}<br/>#{user.last_sign_in_ip}".html_safe
     end
@@ -102,7 +104,7 @@ ActiveAdmin.register User do
         if user.phone?
           span link_to("Ver en panel de Elementos Enviados de Esendex (confirmado)", "https://www.esendex.com/echo/a/#{Rails.application.secrets.esendex[:account_reference]}/Sent/Messages?FilterRecipientValue=#{user.phone.sub(/^00/,'')}")
         end
-        if user.unconfirmed_phone? 
+        if user.unconfirmed_phone?
           span link_to("Ver en panel de Elementos Enviados de Esendex (no confirmado)", "https://www.esendex.com/echo/a/#{Rails.application.secrets.esendex[:account_reference]}/Sent/Messages?FilterRecipientValue=#{user.unconfirmed_phone.sub(/^00/,'')}")
         end
       end
@@ -111,7 +113,7 @@ ActiveAdmin.register User do
           status_tag("El usuario supera todas las validaciones", :ok)
         else
           status_tag("El usuario no supera alguna validación", :error)
-          ul 
+          ul
             user.errors.full_messages.each do |mes|
               li mes
             end
@@ -130,7 +132,8 @@ ActiveAdmin.register User do
       row :vote_town_name
       row :address
       row :postal_code
-      
+      row :mobile
+
       row :country do
         user.country_name
       end
@@ -206,7 +209,7 @@ ActiveAdmin.register User do
       else
         "No hay votos asociados a este usuario."
       end
-    end    
+    end
 
     if !user.participation_team_at.nil?
 
@@ -234,6 +237,7 @@ ActiveAdmin.register User do
   filter :last_name
   filter :district, as: :select, collection: User::DISTRICT
   filter :phone
+  filter :mobile
   filter :created_at
   filter :born_at
   filter :address
@@ -271,6 +275,7 @@ ActiveAdmin.register User do
     column :district_name
     column :address
     column :postal_code
+    column :mobile
     column :phone
     column :current_sign_in_ip
     column :last_sign_in_ip
@@ -303,9 +308,9 @@ ActiveAdmin.register User do
   action_item(:ban, only: :show) do
     if can? :ban, User
       if user.banned?
-        link_to('Desbanear usuario', ban_admin_user_path(user), method: :delete) 
+        link_to('Desbanear usuario', ban_admin_user_path(user), method: :delete)
       else
-        link_to('Banear usuario', ban_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de querer banear a este usuario?" }) 
+        link_to('Banear usuario', ban_admin_user_path(user), method: :post, data: { confirm: "¿Estas segura de querer banear a este usuario?" })
       end
     end
   end
@@ -431,7 +436,7 @@ ActiveAdmin.register User do
     end
   end
 
-  sidebar "CRUZAR DATOS", 'data-panel' => :collapsed, :only => :index, priority: 100 do  
+  sidebar "CRUZAR DATOS", 'data-panel' => :collapsed, :only => :index, priority: 100 do
     render("admin/fill_csv_form")
   end
 
@@ -486,13 +491,13 @@ ActiveAdmin.register User do
   collection_action :download_participation_teams, :method => :post do
     if params[:date].nil? or params[:date].empty?
       date = DateTime.civil(1900,1,1)
-    else  
+    else
       date = DateTime.parse(params[:date])
     end
 
     csv = CSV.generate(encoding: 'utf-8', col_sep: "\t") do |csv|
       csv << ["ID", "Código de identificacion", "Nombre", "País", "Comunidad Autónoma", "Municipio", "Código postal", "Teléfono", "Email", "Equipos"]
-      User.participation_team.where("participation_team_at>?", date).each do |user| 
+      User.participation_team.where("participation_team_at>?", date).each do |user|
         csv << [ user.id, "#{user.postal_code}#{user.phone}", user.first_name, user.country_name, user.autonomy_name, user.town_name, user.postal_code, user.phone, user.email, user.participation_team.map { |team| team.name }.join(",") ]
       end
     end

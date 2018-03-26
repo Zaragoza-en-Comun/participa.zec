@@ -4,7 +4,7 @@ require_dependency Rails.root.join('app', 'controllers', 'registrations_controll
 class RegistrationsController
 
   def sign_up_params
-    params.require(:user).permit(:first_name, :last_name, :email, :email_confirmation, :password, :password_confirmation, :born_at, :wants_newsletter, :document_type, :document_vatid, :terms_of_service, :over_18, :inscription, :address, :district, :vote_town, :vote_province, :postal_code, :captcha, :captcha_key)
+    params.require(:user).permit(:first_name, :last_name, :email, :email_confirmation, :password, :password_confirmation, :born_at, :wants_newsletter, :document_type, :document_vatid, :terms_of_service, :over_18, :inscription, :address, :district, :mobile, :vote_town, :vote_province, :postal_code, :captcha, :captcha_key)
   end
 
   def new
@@ -17,11 +17,10 @@ class RegistrationsController
 
   def account_update_params
     if current_user.can_change_vote_location?
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, :born_at, :wants_newsletter, :address, :postal_code, :district, :vote_province, :vote_town)
+      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, :born_at, :wants_newsletter, :address, :postal_code, :district, :mobile, :vote_province, :vote_town)
     else
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, :born_at, :wants_newsletter, :address, :postal_code, :district)
+      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password, :born_at, :wants_newsletter, :address, :postal_code, :district, :mobile)
     end
   end
 
 end
-

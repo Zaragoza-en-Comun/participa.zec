@@ -14,10 +14,13 @@
                   end_year: 1996 %>
 
     <%= f.input :address %>
-
-    <li class="select input required" id="user_country_input"><label class="label" for="user_address">País<abbr title="requerido">*</abbr></label>
+    <%= f.input :mobile %>
+    <%= f.input :district,
+                required: true,
+                as: :select,
+                collection: User::DISTRICT,
+                input_html: {required: true} %>
     <%= f.input :postal_code %>
-    <%= f.input :circle %>
     <%= f.input :wants_newsletter %>
   <% end %>
   <%= f.actions %>
