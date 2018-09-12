@@ -19,7 +19,7 @@ ActiveAdmin.register Election do
   filter :agora_election_id
   filter :user_created_at_max
 
-  show do 
+  show do
     attributes_table do
       row :requires_sms_check do
         status_tag("SMS CHECK", :ok)
@@ -34,7 +34,7 @@ ActiveAdmin.register Election do
       row :starts_at
       row :ends_at
       row :user_created_at_max
-      row :close_message do 
+      row :close_message do
         raw election.close_message
       end
       row "Crear Aviso" do
@@ -57,7 +57,7 @@ ActiveAdmin.register Election do
           status_tag("VERSION NUEVA", :error) if el.new_version_pending
         end
       end
-      
+
       span link_to "Añadir ubicación", new_admin_election_election_location_path(election)
     end
     active_admin_comments
@@ -66,7 +66,7 @@ ActiveAdmin.register Election do
   member_action :download_voting_definition do
     election_location = ElectionLocation.find(params[:id])
     headers["Content-Type"] ||= 'text/csv'
-    headers["Content-Disposition"] = "attachment; filename=\"#{election_location.new_vote_id}.tsv\"" 
+    headers["Content-Disposition"] = "attachment; filename=\"#{election_location.new_vote_id}.tsv\""
     render "election_location.tsv", layout: false, locals: { election_location: election_location }
   end
 
@@ -93,7 +93,7 @@ ActiveAdmin.register Election do
     election_id = params[:id]
     csv = CSV.generate(encoding: 'utf-8', col_sep: "\t") do |csv|
       prev_user_id = nil
-      Vote.joins(:user).merge!(User.voting_right.not_banned).where(election_id: election_id).select(:user_id, :voter_id).order(user_id: :asc, created_at: :desc).each do |vote| 
+      Vote.joins(:user).merge!(User.voting_right.not_banned).where(election_id: election_id).select(:user_id, :voter_id).order(user_id: :asc, created_at: :desc).each do |vote|
         csv << [ vote.voter_id ] if prev_user_id != vote.user_id
         prev_user_id = vote.user_id
       end
@@ -101,6 +101,23 @@ ActiveAdmin.register Election do
     send_data csv.encode('utf-8'),
       type: 'text/tsv; charset=utf-8; header=present',
       disposition: "attachment; filename=voter_ids.#{election_id}.tsv"
+  end
+
+  member_action :download_voters do
+    election_id = params[:id]
+    csv = CSV.generate(encoding: 'utf-8', col_sep: "\t", :write_headers=> true, :headers => ["NOMBRE","APELLIDOS","DNI","VERIFICADO","VOTADO"]) do |csv|
+      User.includes(:votes).order(last_name: :asc).each do |user|
+        votado = false
+        Vote.where(user_id: user.id).where(election_id: election_id).order(user_id: :asc, created_at: :desc).each do
+          votado = true
+          break
+        end
+        csv << [user.first_name, user.last_name, user.document_vatid, user.is_verified?, votado]
+      end
+    end
+    send_data csv.encode('utf-8'),
+      type: 'text/tsv; charset=utf-8; header=present',
+      disposition: "attachment; filename=eleccion.#{election_id}.tsv"
   end
 
   sidebar "Progreso", only: :show, priority: 0 do
@@ -111,13 +128,17 @@ ActiveAdmin.register Election do
       a 'Descargar voter ids', href: download_voter_ids_admin_election_path(election)
     end
   end
+  action_item :download, only: :show do
+  link_to 'Descargar participantes y censados', download_voters_admin_election_path(election)
+end
+
 end
 
 ActiveAdmin.register ElectionLocation do
   menu false
   belongs_to :election
   navigation_menu :default
-    
+
   permit_params :election_id, :location, :agora_version, :new_agora_version, :override, :title, :layout, :description, :share_text, :theme, :has_voting_info,
                 election_location_questions_attributes: [ :id, :_destroy, :title, :description, :voting_system, :layout, :winners, :minimum, :maximum, :random_order, :totals, :options, options_headers: [] ]
 
