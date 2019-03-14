@@ -699,11 +699,11 @@ Zaragoza en Común cumple con todas las medidas de seguridad para la protección
       no_points: "No hay ningún punto activo actualmente."
       link_title: "inscribirte"
     pending0_html: No has finalizado la verificación
-    pending1_html: Para acabar el proceso de verificación necesitas aportar documentación de forma presencial.
-    pending2_html: "Trae tu <b>DNI</b> y un documento  que demuestre tu vinculación  con la ciudad de Zaragoza: <b>empadronamiento, Tarjeta Censal, cualquier recibo (luz, agua...) o contrato de trabajo del último año</b>."
+    pending1_html: Para acabar el proceso de verificación necesitas aportar documentación de forma presencial en los puntos de verificación o envíanos un correo electrónico.
+    pending2_html: "O trae tu <b>DNI</b> y un documento  que demuestre tu vinculación  con la ciudad de Zaragoza: <b>empadronamiento, Tarjeta Censal, cualquier recibo (luz, agua...) o contrato de trabajo del último año</b>."
     pending3_html: ¿No tienes dirección en Zaragoza?
     pending4_html: "<li>Trae el:</li><li><b>DNI/NIE</b> con dirección</li><li><li> de fuera de Zaragoza </li><li> o el <b>Pasaporte</b></li><li> o el <b>Carnet de conducir</b></li>"
-    pending5_html: y también
+    pending5_html: Envía un correo electrónico desde la cuenta de correo electrónico con la que has realizado la inscripción a <b>sede@zaragozaencomun.com</b> adjuntando la fotografía o escaneo de tu dni por las dos caras y /o documentación que acredite la vinculación con Zaragoza con el texto <b>"Adjunto la copia de la documentación que acredita mi vinculación con la ciudad de Zaragoza y autorizo a Zaragoza en Común su uso con el único el fin de finalizar la inscripción en el Censo de Zaragoza en Común"</b>.
     pending6_html: "<li><b>Empadronamiento</b>,</li><li><b>tarjeta censal</b></li><li> o cualquier <b>recibo</b></li><li> (luz, agua o gas)</li><li> del último año.</li>"
     pending7_html: "Trae la documentación a:"
     user_verified: Usuario/a verificado/a

@@ -58,6 +58,7 @@ gem 'validate_url'
 gem 'norma43', github: 'podemos-info/norma43'
 gem 'sepa_king' # for generate SEPA XML files
 gem 'doorkeeper'
+gem 'paper_trail-association_tracking'
 
 group :development, :test do
   gem 'capistrano', '~> 3.8.1'
@@ -65,7 +66,7 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-passenger'
   gem 'capistrano-rvm'
-  gem 'factory_bot_rails'
+  #gem 'factory_bot_rails'
   gem 'byebug'
   gem 'better_errors'
   gem 'binding_of_caller'
