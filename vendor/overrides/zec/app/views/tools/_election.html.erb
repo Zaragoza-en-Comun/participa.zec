@@ -3,6 +3,7 @@
   <div>
     <%= link_to create_vote_path(election_id: election.id) do %>
       <p class="poll-q"><%= election.full_title_for current_user %></p>
+      <p class="sub-h3"><%= election.info_text.gsub(/\n/, '<br/>').html_safe %></p>
       <p class="date"><%= l election.starts_at, format: :short %> - <%= l election.ends_at, format: :short %></p>
     <% end %>
   </div>
