@@ -1,11 +1,11 @@
 GIT
-  remote: git://github.com/podemos-info/norma43.git
+  remote: https://github.com/podemos-info/norma43.git
   revision: 98e537e2e5a60394e53b7447221187d0e497cf2c
   specs:
     norma43 (0.3.2)
 
 GIT
-  remote: git://github.com/radar/paranoia.git
+  remote: https://github.com/radar/paranoia.git
   revision: bd3383729c790bf09e488f84221eaaea27c6597e
   branch: rails4
   specs:
@@ -224,7 +224,9 @@ GEM
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
-    mimemagic (0.3.3)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.12.2)
@@ -279,7 +281,7 @@ GEM
     pushmeup (0.3.0)
       httparty
       json
-    rack (1.6.11)
+    rack (1.6.13)
     rack-openid (1.4.2)
       rack (>= 1.1.0)
       ruby-openid (>= 2.1.8)
